@@ -1,0 +1,139 @@
+{% extends "rentas_base.html" %}
+{% load static from staticfiles %}
+{% block title %}Rentas Camagüey :: Tecnocasas{% endblock %}
+{% block script %}
+    <script>
+
+        $(document).ready(function(){
+            $('.bxslider').bxSlider({
+                auto: true,
+                infiniteLoop: true,
+                slideWidth:500,
+            });
+        });
+    </script>
+{% endblock %}
+{% block style %}
+    <style>
+.star-rating a {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    display: inline-block;
+    color: #95a5a6; /* gris (normal) */
+}
+.star-rating:hover a {
+  color: #f39c12; /* amarillo (seleccionado) */
+}
+  .star-rating:hover a:hover ~ a {
+    color: #95a5a6; /* gris (normal) */
+  }
+  </style>
+{% endblock %}
+{% block content %}
+<div align="center">
+
+{% if rentas %}
+    {% for r in rentas %}
+            <div id="detalle_header">
+                <h1>{{ r.nombre }}</h1>
+            </div>
+            <table  border="0" cellpadding="0" cellspacing="3" width="100%" >
+                <tr >
+                    <td width="400px" align="left" valign="top" bgcolor="#f0ffff" style="border-right: 2px solid #687777">
+
+                        {% if form.errors %}
+                            <p style="color:red;font-weight: bold;">Por favor corrija lo siguiente</p>
+                        {% endif %}
+                        <form action="" method="POST">{% csrf_token %}
+                            <h2>Reserve ahora</h2>
+
+                            <table width="100%">
+                                {{ form.as_table }}
+                            </table>
+                            <div align="center"><input type="submit" value="Enviar" /></div>
+                        </form>
+                        {% if salida == "exito" %}
+                            <div class="message">
+                                Su reserva ha sido creada satisfactoriamente, recuerde que debe confirmarlo 15 días antes de su llegada luego de pasado este período no tendra reclamación.
+                            </div>
+                        {% endif %}
+                        {% if salida == "fracaso" %}
+                            <div class="message">
+                                Sentimos informarle que no ha sido posible reservar para la fecha que ha pedido, por favor le rogamos nos disculpe las molestias que esto le pueda ocasionar.
+                            </div>
+                        {% endif %}
+                        {% if formcomentario.errors %}
+                            <p style="color:red;font-weight: bold;">Por favor corrija lo siguiente</p>
+                        {% endif %}
+                        <form action="" method="POST">{% csrf_token %}
+                            <h2>Comente sus experiencias</h2>
+
+                            <table width="100%">
+                                {{ formcomentario.as_table }}
+                            </table>
+                            <div align="center"><input type="submit" value="Enviar" /></div>
+                        </form>
+                    </td>
+                    <td align="center">
+                        <table border="0" cellpadding="3" cellspacing="0" >
+                                <tr >
+                                    <td valign="top">
+                                        <div class="roundedDiv">
+                                            <p>{{ r.descripcion }}</p>
+                                            <p> Se encuentra en el municipio {{ r.municipio }} de la provincia {{ r.municipio.provincia }}</p>
+                                        </div>
+                                    </td>
+                                    <td width="500px">
+                                        <ul class="bxslider">
+                                            <li><img src="{{ r.imagen.url }}" alt="{{ r.nombre }}" title="Imagen de la vivienda" width="500px" height="500px"/></li>
+                                            {% if r.galeria_set.all %}
+
+                                                {% for g in r.galeria_set.all%}
+                                                    <li><img src="{{ g.imagen.url }}" alt="Imagen" width="500px" height="500px"/></li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <table border="0" cellpadding="3" cellspacing="0" >
+                                            <tr>
+                                                <td><img src="{% static "cmghostal/images/habitacion.png" %} " alt="Habitaciones" title="Cantidad de habitaciones"/></td>
+                                                <td>{{ r.habitaciones }}</td>
+                                            </tr>
+                                        </table>
+                                        {% if r.servicio.all%}
+                                            {% for s in r.servicio.all%}
+                                                <img src="{{ s.imagen.url }}" alt="{{ s.nombre }}" title="{{ s.nombre }}"/><br/>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                        </table>
+                        <!--
+                          <div class="star-rating">
+                            <a href="#">&#9733;</a>
+                            <a href="#">&#9733;</a>
+                            <a href="#">&#9733;</a>
+                            <a href="#">&#9733;</a>
+                            <a href="#">&#9733;</a>
+                          </div>
+                        -->
+                        {% if comentarios %}
+                            {% for c in comentarios %}
+                                <table width="100%" border="0" cellpadding="0" cellspacing="3">
+                                    <tr>
+                                        <td>{{ c.nombre }}</td>
+                                        <td>{{ c.comentario }}</td>
+                                    </tr>
+                                </table>
+                            {% endfor %}
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+
+    {% endfor %}
+{% endif %}
+</div>
+{% endblock %}

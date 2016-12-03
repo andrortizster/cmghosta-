@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% block title %}Rentas Camagüey :: Tecnocasas{% endblock %}
+{% block content %}
+
+<h1>Ultimas casas de rentas incluidas</h1>
+<div style="padding-left: 10px">
+{% if rentas %}
+    {% for r in rentas %}
+        <div class="roundedDiv">
+            <img src="{{ r.imagen.url }}" width="400px" height="200px" /><br/>
+            <a href="rentas/detalles/{{ r.id }}">{{ r.nombre }}</a> <br/>
+            <table border="0" cellpadding="3" cellspacing="0" >
+                <tr>
+                    <td><img src="{% static "cmghostal/images/habitacion.png" %} " alt="Habitaciones" title="Cantidad de habitaciones"/></td>
+                    <td>{{ r.habitaciones }}</td>
+                </tr>
+            </table>
+            Municipio: {{ r.municipio }} <br/>
+            Provincia: {{ r.municipio.provincia }} <br/>
+        </div>
+        <br/>
+    {% endfor %}
+{% endif %}
+</div>
+{% endblock %}

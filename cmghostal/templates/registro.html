@@ -1,0 +1,8 @@
+{% extends "rentas_base.html" %}
+{% block content %}
+    <h1>Crea una cuenta de usuario</h1>
+    <form action="" method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Crea una cuenta" >
+    </form>
+{% endblock %}

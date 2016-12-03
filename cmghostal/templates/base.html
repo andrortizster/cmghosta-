@@ -1,0 +1,89 @@
+
+<html lang="es">
+{% load staticfiles %}
+<head>
+	<title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static "cmghostal/css/styles.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "cmghostal/css/theme-metallic.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "cmghostal/css/anythingslider.css" %}" />
+    <script src="{% static "cmghostal/js/jquery.min.js" %}"></script>
+    <script>window.jQuery || document.write('<script src="{% static "cmghostal/js/jquery.min.js" %}"><\/script>')</script>
+    <script src="{% static "cmghostal/js/jquery.anythingslider.js" %}"></script>
+	{% block header %}{% endblock %}
+    
+    <script>
+        $(function () {
+        	$('#slider').anythingSlider({
+        //			theme : 'metallic',
+
+
+        			buildArrows         : false,      // If true, builds the forwards and backwards buttons
+        			buildNavigation     : false,      // If true, builds a list of anchor links to link to each panel
+        			buildStartStop      : false,      // If true, builds the start/stop button
+        			expand       : true,
+        			autoPlay     : true,
+        			stopAtEnd: false,
+        			infiniteSlides: true,
+
+        		});
+        });
+    </script>
+    <style>
+        #slider {
+            list-style: none;
+        }
+
+        #wrapper {
+            width: 100%;
+            display: block;
+            position: relative;
+            height: 700px;
+            left: 0;
+            bottom: 0px;
+            right: 0;
+        	z-index:1;
+        	top:-255;
+        }
+    </style>
+</head>
+<body style="font-size: 12px;font-family: Tahoma,Verdana, sans-serif;margin:0;">
+
+<div style="position:relative; font-size:50px; z-index:2;text-align:center;color:#FFFFFF;text-shadow:#000000;">
+  <div align="left" style="padding-left:45;padding-right:45">
+     <table width="100%" cellpadding="0" cellspacing="0" border="0">
+	 <tr >
+	 	<td width="101" valign="top" ><img src="{% static "cmghostal/images/header.png" %}"/></td>
+		<td background="{% static "cmghostal/images/header2.png" %}">
+			 <div style="font-family:Verdana;color:#FFFFFF;font-weight:bold;font-size:16;padding-left:30;padding-top:20">Inicio&nbsp;&nbsp;&nbsp;Tecnocasas&nbsp;&nbsp;&nbsp;Renta&nbsp;&nbsp;&nbsp;Cont&aacute;ctenos</div>
+		</td>
+	 </tr>
+	 </table>
+	 <br/>
+
+
+  </div>
+</div>
+
+<div style="position:relative; z-index:2;text-align:left;padding-top:30; padding-left:100" >
+ <img src="{% static "cmghostal/images/inmobiliaria.png" %} " />
+
+</div>
+<div id="wrapper" >
+<ul id="slider" >
+    <li><img src="{% static "cmghostal/images/01.jpg" %} " alt="" /></li>
+    <li><img src="{% static "cmghostal/images/02.jpg" %} " alt="" /></li>
+    <li><img src="{% static "cmghostal/images/03.jpg" %} " alt="" /></li>
+    <li><img src="{% static "cmghostal/images/04.jpg" %} " alt="" /></li>
+</ul>
+    <h1>Inicio del sitio</h1>
+</div>
+    {% block content %}{% endblock %}
+
+	{% block footer %}
+		<hr>
+		<p>Gracias por visitar nuestro sitio web</p>
+	{% endblock %}
+
+
+</body>
+</html>

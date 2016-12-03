@@ -1,0 +1,14 @@
+<h1>Ultimas casas de rentas incluidas</h1>
+{% if rentas %}
+    {% for r in rentas %}
+        <p>
+            Nombre: {{ r.nombre }} <br/>
+            Cantidad de Habitaciones: {{ r.habitaciones }} <br/>
+            Municipio: {{ r.municipio }} <br/>
+            Provincia: {{ r.municipio.provincia }} <br/>
+        </p>
+
+    {% endfor %}
+{% endif %}
+
+Para ver una haga click en ella
