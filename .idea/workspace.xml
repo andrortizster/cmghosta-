@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e3e1f740-de9b-4724-b16d-4227cd3bf229" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/cmghostal/images/01.jpg" afterPath="$PROJECT_DIR$/static/cmghostal/images/01.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/cmghostal/images/02.jpg" afterPath="$PROJECT_DIR$/static/cmghostal/images/02.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/cmghostal/images/04.jpg" afterPath="$PROJECT_DIR$/static/cmghostal/images/04.jpg" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmghostal/templates/base.html" afterPath="$PROJECT_DIR$/cmghostal/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rentas/forms.py" afterPath="$PROJECT_DIR$/rentas/forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rentas/templates/lista.html" afterPath="$PROJECT_DIR$/rentas/templates/lista.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rentas/templates/rentas_base.html" afterPath="$PROJECT_DIR$/rentas/templates/rentas_base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rentas/urls.py" afterPath="$PROJECT_DIR$/rentas/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rentas/views.py" afterPath="$PROJECT_DIR$/rentas/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/cmghostal/css/styles.css" afterPath="$PROJECT_DIR$/static/cmghostal/css/styles.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/cmghostal/js/municipios.js" afterPath="$PROJECT_DIR$/static/cmghostal/js/municipios.js" />
     </list>
     <ignored path="cmghostal.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -611,7 +599,14 @@
       <option name="project" value="LOCAL" />
       <updated>1480951524955</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="nuevas imagenes del front">
+      <created>1481579414407</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1481579414407</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -651,7 +646,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="test" />
-    <option name="LAST_COMMIT_MESSAGE" value="test" />
+    <MESSAGE value="nuevas imagenes del front" />
+    <option name="LAST_COMMIT_MESSAGE" value="nuevas imagenes del front" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
