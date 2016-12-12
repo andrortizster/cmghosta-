@@ -1,19 +1,25 @@
 body {
     font-size: 10px;
-    font-family: Tahoma,Verdana, sans-serif;
+    font-family: sans-serif,Tahoma,Verdana ;
     margin:0;
 }
 
 label {
-    font-size: 0.7em;
+    font-size: 0.9em;
     font-weight:bold;
 }
 
 h2 {
     font-family: Tahoma,Verdana, sans-serif;
-    font-size: 1em;
+    font-size: 2em;
     color:#159b0f;
 
+}
+
+table {
+    font-family: Tahoma Verdana Arial;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .roundedDiv {
@@ -37,7 +43,7 @@ form{
     border: 2px solid #004400;
     padding: 5px;
     font-size: 10px;
-    width:375px
+    width:380px
 
 }
 
@@ -126,6 +132,7 @@ border-radius: 15px 15px 15px 15px;
 
 div#detalle_header{
     background-color: #159b0f;
+    text-align: center;
     margin:0;
 }
 div#detalle_header h1 {
@@ -133,3 +140,27 @@ div#detalle_header h1 {
     margin: 0;
 }
 div#detalle_header h2 {  color: white; }
+
+.mainmenu{
+    font-family:Verdana;
+    color:#FFFFFF;
+    font-weight:bold;
+    font-size:16px;
+    padding-left:30px;
+    padding-top:20px;
+}
+
+.mainmenu a {
+    font-weight:bold;
+    font-size:16px;
+    color: #fffaaa;
+    text-decoration: none;
+}
+
+.mainmenu a:hover {
+    color: #d0ff76;
+}
+
+.mainmenu a:visited {
+    color: #ffffff;
+}

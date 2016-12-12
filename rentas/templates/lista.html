@@ -1,10 +1,160 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "rentas_base.html" %}
+{% load static from staticfiles %}
+{% block title %}Rentas Camagüey :: Tecnocasas{% endblock %}
+{% block script %}
+    <script>
+        function json_to_select(url, select_selector) {
+        /*
+         Fill a select input field with data from a getJSON call
+         Inspired by: http://stackoverflow.com/questions/1388302/create-option-on-the-fly-with-jquery
+        */
+            $.getJSON(url, function(data) {
+            var opt=$(select_selector);
+            var old_val=opt.val();
+                opt.html('');
+                $.each(data, function () {
+                    opt.append($('<option/>').val(this.id).text(this.value));
+                });
+                opt.val(old_val);
+                opt.change();
+            })
+        }
+        $(function(){
+         $('#id_provincia').change(function(){
+           json_to_select('/rentas/encuentra_municipios/?provincia=' + $(this).val(), '#id_municipio');
+         })
+        });
+    </script>
+{% endblock %}
+{% block content %}
+    {% if fmunicipio %}
+        <div id="detalle_header">
+                <h1>Mostrando rentas del municipio {{ fmunicipio.nombre }} en la provincia {{ fmunicipio.provincia.nombre }}</h1>
+        </div>
+    {% else %}
+        <div id="detalle_header">
+                <h1>Listado de nuestras rentas</h1>
+        </div>
+    {% endif %}
+    <table  border="0" cellpadding="0" cellspacing="3" width="100%" height="100%" >
+                <tr >
+                    <td width="400px" align="left" valign="top" bgcolor="#f0ffff" style="border-right: 2px solid #687777">
+                        <div align="center">
+                                            {% if form.errors %}
+                                                <p style="color:red;font-weight: bold;">Por favor corrija lo siguiente</p>
+                                            {% endif %}
+                                            <form action="" method="POST">{% csrf_token %}
+                                                <h2>Mostrar las rentas de:</h2>
 
-</body>
-</html>
+                                                <table width="100%">
+                                                    {{ form.as_table }}
+                                                </table>
+                                                <div align="center"><input type="submit" value="Enviar" /></div>
+                                            </form>
+                        </div>
+                    </td>
+                    <td valign="top">
+                        {% if rentas %}
+                                <div align="center">
+                                    <div class="pagination">
+                                        <span class="step-links">
+                                            <table>
+                                                <TR>
+                                                {% if rentas.has_previous %}
+                                                    <td>
+                                                    <a href="?page={{ rentas.previous_page_number }}"><img src="{% static "cmghostal/images/izquierda.png" %}"/></a>
+                                                    </td>
+                                                {% endif %}
+
+                                                <span class="current">
+                                                    <td style="font-size: 14px;font-weight: bold;font-family: Tahoma Verdana Arial">
+                                                    P&aacute;gina {{ rentas.number }} de {{ rentas.paginator.num_pages }}.
+                                                    </td>
+                                                </span>
+
+                                                {% if rentas.has_next %}
+                                                    <td>
+                                                    <a href="?page={{ rentas.next_page_number }}"><img src="{% static "cmghostal/images/derecha.png" %}"/></a>
+                                                    </td>
+                                                {% endif %}
+                                                </TR>
+                                            </table>
+                                        </span>
+                                    </div>
+                                </div>
+                            <table>
+                                <tr>
+                                    <td>
+                                        {% for r in rentas %}
+                                            <div class="roundedDiv">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <img src="{{ r.imagen.url }}" width="400px" height="200px" /><br/>
+                                                        </td>
+                                                        <td>
+                                                            <p>{{ r.direccion }}</p>
+                                                            Municipio: {{ r.municipio }} <br/>
+                                                            Provincia: {{ r.municipio.provincia }} <br/>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                            <a href="/rentas/detalles/{{ r.id }}">{{ r.nombre }}</a> <br/>
+                                                            <table border="0" cellpadding="3" cellspacing="0" >
+                                                                <tr>
+                                                                    <td><img src="{% static "cmghostal/images/habitacion.png" %} " alt="Habitaciones" title="Cantidad de habitaciones"/></td>
+                                                                    <td>{{ r.habitaciones }}</td>
+                                                                    {%  if r.servicio.all %}
+                                                                        <td>
+                                                                        {% for s in r.servicio.all %}
+                                                                            <img src="{{ s.imagen.url }}" alt="{{ s.nombre }}" title="{{ s.nombre }}"/>&nbsp;
+                                                                        {% endfor %}
+                                                                        </td>
+                                                                    {% endif %}
+
+                                                                </tr>
+                                                            </table>
+
+                                            </div><br/>
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                            </table>
+                            <div align="center">
+                                <div class="pagination">
+                                    <span class="step-links">
+                                        <table>
+                                            <TR>
+                                            {% if rentas.has_previous %}
+                                                <td>
+                                                <a href="?page={{ rentas.previous_page_number }}"><img src="{% static "cmghostal/images/izquierda.png" %}"/></a>
+                                                </td>
+                                            {% endif %}
+
+                                            <span class="current">
+                                                <td style="font-size: 14px;font-weight: bold;font-family: Tahoma Verdana Arial">
+                                                P&aacute;gina {{ rentas.number }} de {{ rentas.paginator.num_pages }}.
+                                                </td>
+                                            </span>
+
+                                            {% if rentas.has_next %}
+                                                <td>
+                                                <a href="?page={{ rentas.next_page_number }}"><img src="{% static "cmghostal/images/derecha.png" %}"/></a>
+                                                </td>
+                                            {% endif %}
+                                            </TR>
+                                        </table>
+                                    </span>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div align="center">
+                                <h2>Lo sentimos aún no tenemos rentas es este municipio</h2>
+                                <img src="{% static "cmghostal/images/no_renta.png" %}"/>
+                            </div>
+                        {% endif %}
+                    </td>
+                </tr>
+    </table>
+
+{%  endblock %}

@@ -9,6 +9,7 @@
     <script>window.jQuery || document.write('<script src="{% static "cmghostal/js/jquery.min.js" %}"><\/script>')</script>
     <script src="{% static "cmghostal/js/jquery.anythingslider.js" %}"></script>
     <script src="{% static "cmghostal/js/jquery.bxslider.min.js" %}"></script>
+
     <link href="{% static "cmghostal/css/jquery.bxslider.css" %}" rel="stylesheet" />
     {% block script %}{% endblock %}
     {% block style %}{% endblock %}
@@ -18,7 +19,7 @@
 	 <tr >
 	 	<td width="101" valign="top" ><img src="{% static "cmghostal/images/header.png" %}"/></td>
 		<td background="{% static "cmghostal/images/header2.png" %}">
-			 <div style="font-family:Verdana;color:#FFFFFF;font-weight:bold;font-size:16;padding-left:30;padding-top:20">Inicio&nbsp;&nbsp;&nbsp;Tecnocasas&nbsp;&nbsp;&nbsp;Renta&nbsp;&nbsp;&nbsp;Cont&aacute;ctenos</div>
+			 <div class="mainmenu"><a href="/">Inicio</a>&nbsp;&nbsp;&nbsp;Tecnocasas&nbsp;&nbsp;&nbsp;<a href="/rentas/lista">Renta</a>&nbsp;&nbsp;&nbsp;Cont&aacute;ctenos</div>
 		</td>
 	 </tr>
 </table>
