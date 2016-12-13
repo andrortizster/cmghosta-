@@ -95,13 +95,13 @@ def rentas_list(request):
         form = FormularioFiltro(request.POST)
         cd = form.data
         if cd['municipio']!='':
-            entrada = datetime.date(int(cd['fecha_entrada_year']),int(cd['fecha_entrada_month']),int(cd['fecha_entrada_day']))
-            salida = datetime.date(int(cd['fecha_salida_year']),int(cd['fecha_salida_month']),int(cd['fecha_salida_day']))
+            entrada = datetime.datetime.strptime(cd['fecha_entrada'],"%m/%d/%Y").date()
+            salida = datetime.datetime.strptime(cd['fecha_salida'],"%m/%d/%Y").date()
 
-            if entrada<salida:
-                error_fecha="La fecha de entrada es posterior a la de salida"
-            if entrada<date.today():
-                error_fecha = "La fecha de entrada está en el pasado"
+            #if entrada<salida:
+            #    error_fecha="La fecha de entrada es posterior a la de salida"
+            #if entrada<date.today():
+            #    error_fecha = "La fecha de entrada está en el pasado"
 
             list_rentas = Renta.objects.filter(municipio_id=cd['municipio'])
             fmunicipio=Municipio.objects.get(id=cd['municipio'])

@@ -24,6 +24,9 @@
            json_to_select('/rentas/encuentra_municipios/?provincia=' + $(this).val(), '#id_municipio');
          })
         });
+
+
+
     </script>
 {% endblock %}
 {% block content %}
@@ -45,12 +48,33 @@
                                             {% endif %}
                                             <form action="" method="POST">{% csrf_token %}
                                                 <h2>Mostrar las rentas de:</h2>
-
-                                                <table width="100%">
-                                                    {{ form.as_table }}
+                                                <table >
+                                                    <tr>
+                                                        <td>Provincia</td><td>{{ form.provincia }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Municipio</td> <td>{{ form.municipio }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Fercha de entrada</td><td><input name='fecha_entrada' type="text" id="id_date_entrada"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Fecha de saldida</td><td><input name='fecha_salida' type="text" id="id_date_salida"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Dinero a gastar</td><td> {{ form.dinero }}</td>
+                                                    </tr>
                                                 </table>
                                                 <div align="center"><input type="submit" value="Enviar" /></div>
                                             </form>
+                        </div>
+                        <div id="accordion">
+                            <h3>First</h3>
+                            <div>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</div>
+                            <h3>Second</h3>
+                            <div>Phasellus mattis tincidunt nibh.</div>
+                            <h3>Third</h3>
+                            <div>Nam dui erat, auctor a, dignissim quis.</div>
                         </div>
                     </td>
                     <td valign="top">
@@ -156,5 +180,11 @@
                     </td>
                 </tr>
     </table>
-
+    <script>
+        $(function() {
+            $( "#id_date_entrada" ).datepicker();
+            $( "#id_date_salida" ).datepicker();
+        });
+        $( "#accordion" ).accordion();
+    </script>
 {%  endblock %}

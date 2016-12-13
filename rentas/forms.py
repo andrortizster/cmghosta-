@@ -17,9 +17,11 @@ class FormularioComentario(forms.Form):
 class FormularioFiltro(forms.Form):
     provincia = forms.ModelChoiceField(models.Provincia.objects.all(), empty_label="(Seleccione una provincia)")
     municipio = forms.ModelChoiceField(models.Municipio.objects.none(), empty_label="(Seleccione un municipio)")
-    fecha_entrada = forms.DateField(label="Fecha de entrada", widget=forms.SelectDateWidget)
-    fecha_salida = forms.DateField(label="Fecha de salida", widget=forms.SelectDateWidget)
-    dinero = forms.CharField(label="Máximo dinero a gastar")
+    fecha_entrada = forms.DateField(label="Fecha de entrada", widget=forms.DateInput(attrs={'class': 'datepicker'}))
+    widgets = {
+        'fecha_entrada': forms.DateInput(attrs={'class': 'datepicker'}),
+        'fecha_salida' : forms.DateInput(attrs={'class': 'datepicker'}),}
+    dinero = forms.FloatField(label="Máximo dinero a gastar")
 
     def __init__(self, *args, **kwargs):
         forms.Form.__init__(self, *args, **kwargs)
