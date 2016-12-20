@@ -44,7 +44,12 @@
                     <td width="400px" align="left" valign="top" bgcolor="#f0ffff" style="border-right: 2px solid #687777">
                         <div align="center">
                                             {% if form.errors %}
-                                                <p style="color:red;font-weight: bold;">Por favor corrija lo siguiente</p>
+                                                <div class="ui-widget">
+                                                    <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                                        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                                                        <strong>Error:</strong> Por favor corrija lo siguiente</p>
+                                                    </div>
+                                                </div>
                                             {% endif %}
                                             <form action="" method="POST">{% csrf_token %}
                                                 <h2>Mostrar las rentas de:</h2>
@@ -67,15 +72,16 @@
                                                 </table>
                                                 <div align="center"><input type="submit" value="Enviar" /></div>
                                             </form>
+                                            {% if error_fecha %}
+                                                <div class="ui-widget">
+                                                    <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                                        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                                                        <strong>Error:</strong> {{ error_fecha }}</p>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
                         </div>
-                        <div id="accordion">
-                            <h3>First</h3>
-                            <div>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</div>
-                            <h3>Second</h3>
-                            <div>Phasellus mattis tincidunt nibh.</div>
-                            <h3>Third</h3>
-                            <div>Nam dui erat, auctor a, dignissim quis.</div>
-                        </div>
+
                     </td>
                     <td valign="top">
                         {% if rentas %}
@@ -185,6 +191,5 @@
             $( "#id_date_entrada" ).datepicker();
             $( "#id_date_salida" ).datepicker();
         });
-        $( "#accordion" ).accordion();
     </script>
 {%  endblock %}

@@ -95,26 +95,41 @@ def rentas_list(request):
         form = FormularioFiltro(request.POST)
         cd = form.data
         if cd['municipio']!='':
-            entrada = datetime.datetime.strptime(cd['fecha_entrada'],"%m/%d/%Y").date()
-            salida = datetime.datetime.strptime(cd['fecha_salida'],"%m/%d/%Y").date()
-
-            #if entrada<salida:
-            #    error_fecha="La fecha de entrada es posterior a la de salida"
-            #if entrada<date.today():
-            #    error_fecha = "La fecha de entrada está en el pasado"
-
+            if cd['fecha_entrada']!='':
+                entrada = datetime.datetime.strptime(cd['fecha_entrada'],"%m/%d/%Y").date()
+                if entrada<date.today():
+                    error_fecha = "La fecha de entrada está en el pasado"
+                    list_rentas = Renta.objects.all()
+                    form = FormularioFiltro()
+                    rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
+                    return render(request, 'lista.html', {'rentas': rentas, 'form': form,'error_fecha':error_fecha})
+                if cd['fecha_salida'] != '':
+                    salida = datetime.datetime.strptime(cd['fecha_salida'], "%m/%d/%Y").date()
+                    if salida < date.today() or salida<entrada:
+                        error_fecha = "La fecha de salida está en el pasado o es menor que la fecha de entrada"
+                        form = FormularioFiltro()
+                        list_rentas = Renta.objects.all()
+                        rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
+                        return render(request, 'lista.html',
+                                      {'rentas': rentas, 'form': form, 'error_fecha': error_fecha})
+                    form = FormularioFiltro()
+                    list_rentas = Renta.objects.filter(municipio_id=cd['municipio']).exclude(
+                        Q(reservacion__fecha_entrada__range=(cd['fecha_entrada'], cd['fecha_salida']))|
+                        Q(reservacion__fecha_salida__range=(cd['fecha_entrada'], cd['fecha_salida'])))
+                    rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
+                    return render(request, 'lista.html',{'rentas': rentas, 'form': form,})
             list_rentas = Renta.objects.filter(municipio_id=cd['municipio'])
             fmunicipio=Municipio.objects.get(id=cd['municipio'])
             form = FormularioFiltro()
             rentas = rentas_paginadas(request.GET.get('page'),list_rentas)
             return render(request, 'lista.html', {'rentas': rentas,'form':form,'fmunicipio':fmunicipio})
         else:
-            list_rentas = Renta.objects.all();
+            list_rentas = Renta.objects.all()
             form = FormularioFiltro()
             rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
             return render(request, 'lista.html', {'rentas': rentas, 'form': form,})
     else:
-        list_rentas = Renta.objects.all();
+        list_rentas = Renta.objects.all()
         form = FormularioFiltro()
         rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
         return render(request, 'lista.html', {'rentas': rentas,'form':form,})
