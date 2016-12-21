@@ -39,16 +39,23 @@ def detalles(request,offset):
         if 'nombre_cliente' in request.POST:
             form = FormularioReservas(request.POST)
             if form.is_valid():
-                cd = form.cleaned_data
-                entrada = datetime.date(int(cd['fecha_entrada_year']), int(cd['fecha_entrada_month']),
-                                        int(cd['fecha_entrada_day']))
-                salida = datetime.date(int(cd['fecha_salida_year']), int(cd['fecha_salida_month']),
-                                       int(cd['fecha_salida_day']))
-
-                if entrada < salida:
+                cd = form.data
+                entrada = datetime.datetime.strptime(cd['fecha_entrada'],"%Y-%m-%d").date()
+                salida = datetime.datetime.strptime(cd['fecha_salida'],"%Y-%m-%d").date()
+                if entrada > salida:
                     error_fecha = "La fecha de entrada es posterior a la de salida"
+                    form = FormularioReservas(request.POST)
+                    formcomentario = FormularioComentario()
+                    return render(request, 'detalles.html',
+                                  {'rentas': list_rentas, 'form': form, 'formcomentario': formcomentario,
+                                   'salida': salida, 'comentarios': list_comentarios, 'error_fecha':error_fecha})
                 if entrada < date.today():
                     error_fecha = "La fecha de entrada está en el pasado"
+                    form = FormularioReservas(request.POST)
+                    formcomentario = FormularioComentario()
+                    return render(request, 'detalles.html',
+                                  {'rentas': list_rentas, 'form': form, 'formcomentario': formcomentario,
+                                   'salida': salida, 'comentarios': list_comentarios, 'error_fecha':error_fecha})
 
                 renta = Renta.objects.get(id=offset)
                 reserva = Reservacion.objects.filter(Q(renta=renta), Q(
@@ -96,7 +103,7 @@ def rentas_list(request):
         cd = form.data
         if cd['municipio']!='':
             if cd['fecha_entrada']!='':
-                entrada = datetime.datetime.strptime(cd['fecha_entrada'],"%m/%d/%Y").date()
+                entrada = datetime.datetime.strptime(cd['fecha_entrada'],"%Y-%m-%d").date()
                 if entrada<date.today():
                     error_fecha = "La fecha de entrada está en el pasado"
                     list_rentas = Renta.objects.all()
@@ -104,7 +111,7 @@ def rentas_list(request):
                     rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
                     return render(request, 'lista.html', {'rentas': rentas, 'form': form,'error_fecha':error_fecha})
                 if cd['fecha_salida'] != '':
-                    salida = datetime.datetime.strptime(cd['fecha_salida'], "%m/%d/%Y").date()
+                    salida = datetime.datetime.strptime(cd['fecha_salida'], "%Y-%m-%d").date()
                     if salida < date.today() or salida<entrada:
                         error_fecha = "La fecha de salida está en el pasado o es menor que la fecha de entrada"
                         form = FormularioFiltro()

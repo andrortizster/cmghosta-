@@ -3,8 +3,9 @@ from django import forms
 from rentas import models
 
 class FormularioReservas(forms.Form):
-    fecha_entrada = forms.DateField(label="Fecha de entrada",widget=forms.SelectDateWidget)
-    fecha_salida = forms.DateField(label="Fecha de salida",widget=forms.SelectDateWidget)
+    widgets = {
+        'fecha_entrada': forms.DateInput(attrs={'class': 'datepicker'}),
+        'fecha_salida': forms.DateInput(attrs={'class': 'datepicker'}),}
     nombre_cliente = forms.CharField(label="Nombre del cliente")
     email_cliente = forms.EmailField(label="Correo electrónico")
     cantidad_personas = forms.IntegerField(label="Cantidad de personas")

@@ -26,7 +26,7 @@ table {
     border-radius: 15px;
     -moz-border-radius: 15px;
     -webkit-border-radius: 15px;
-    border: 2px solid #159b0f;
+    border: 1px solid #159b0f;
     padding: 5px;
     font-weight: bold;
     font-size: 12px;
@@ -40,11 +40,10 @@ form{
     border-radius: 15px;
     -moz-border-radius: 15px;
     -webkit-border-radius: 15px;
-    border: 2px solid #004400;
+    border: 1px solid #004400;
     padding: 5px;
     font-size: 10px;
     width:380px
-
 }
 
 input{
@@ -64,6 +63,7 @@ select{
     border: 1px solid #004400;
     padding: 3px;
     font-size: 12px;
+    width: 100%;
 }
 
 textarea{

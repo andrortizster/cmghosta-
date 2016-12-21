@@ -43,24 +43,54 @@
                     <td width="400px" align="left" valign="top" bgcolor="#f0ffff" style="border-right: 2px solid #687777">
 
                         {% if form.errors %}
-                            <p style="color:red;font-weight: bold;">Por favor corrija lo siguiente</p>
+                            <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                                Por favor corrija lo siguiente</p>
+                            </div>
                         {% endif %}
+                         {% if error_fecha %}
+                            <div class="ui-widget">
+                                <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                    <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                                    <strong>Error:</strong> {{ error_fecha }}</p>
+                                </div>
+                            </div>
+                         {% endif %}
                         <form action="" method="POST">{% csrf_token %}
                             <h2>Reserve ahora</h2>
-
                             <table width="100%">
-                                {{ form.as_table }}
+                                <tr>
+                                    <td align="right">Fercha de entrada</td><td><input name='fecha_entrada' type="text" id="id_date_entrada"></td>
+                                </tr>
+                                <tr>
+                                    <td align="right">Fecha de salida</td><td><input name='fecha_salida' type="text" id="id_date_salida"></td>
+                                </tr>
+                                <tr>
+                                    <td align="right">Nombre del cliente</td><td> {{ form.nombre_cliente }}</td>
+                                </tr>
+                                <tr>
+                                    <td align="right">Correo electrónico</td><td> {{ form.email_cliente }}</td>
+                                </tr>
+                                <tr>
+                                    <td align="right">Cantidad de personas</td><td> {{ form.cantidad_personas  }}</td>
+                                </tr>
                             </table>
                             <div align="center"><input type="submit" value="Enviar" /></div>
                         </form>
                         {% if salida == "exito" %}
-                            <div class="message">
-                                Su reserva ha sido creada satisfactoriamente, recuerde que debe confirmarlo 15 días antes de su llegada luego de pasado este período no tendra reclamación.
+                            <div class="ui-widget">
+                                <div class="ui-state-checked ui-corner-all" style="padding: 0 .7em;">
+                                    <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+                                    Su reserva ha sido creada satisfactoriamente, recuerde que debe confirmarlo 15 días antes de su llegada luego de pasado este período no tendra reclamación.</p>
+                                </div>
                             </div>
                         {% endif %}
                         {% if salida == "fracaso" %}
-                            <div class="message">
-                                Sentimos informarle que no ha sido posible reservar para la fecha que ha pedido, por favor le rogamos nos disculpe las molestias que esto le pueda ocasionar.
+                            <div class="ui-widget">
+                                <div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
+                                    <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                                    Sentimos informarle que no ha sido posible reservar para la fecha que ha pedido, por favor le rogamos nos disculpe las molestias que esto le pueda ocasionar.</p>
+                                </div>
                             </div>
                         {% endif %}
                         {% if formcomentario.errors %}
@@ -81,10 +111,10 @@
                                     <td valign="top">
                                         <div class="roundedDiv">
                                             <p>{{ r.descripcion }}</p>
-                                            <p> Se encuentra en el municipio {{ r.municipio }} de la provincia {{ r.municipio.provincia }}</p>
+                                            <p> Se encuentra en {{ r.direccion }} municipio {{ r.municipio }} de la provincia {{ r.municipio.provincia }}</p>
                                         </div>
                                     </td>
-                                    <td width="500px">
+                                    <td width="500px" valign="top">
                                         <ul class="bxslider">
                                             <li><img src="{{ r.imagen.url }}" alt="{{ r.nombre }}" title="Imagen de la vivienda" width="500px" height="500px"/></li>
                                             {% if r.galeria_set.all %}
@@ -95,7 +125,7 @@
                                             {% endif %}
                                         </ul>
                                     </td>
-                                    <td>
+                                    <td valign="top" width="40px">
                                         <table border="0" cellpadding="3" cellspacing="0" >
                                             <tr>
                                                 <td><img src="{% static "cmghostal/images/habitacion.png" %} " alt="Habitaciones" title="Cantidad de habitaciones"/></td>
@@ -136,4 +166,10 @@
     {% endfor %}
 {% endif %}
 </div>
+    <script>
+        $(function() {
+            $( "#id_date_entrada" ).datepicker();
+            $( "#id_date_salida" ).datepicker();
+        });
+    </script>
 {% endblock %}
