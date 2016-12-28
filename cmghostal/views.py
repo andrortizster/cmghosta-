@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from rentas.models import Renta
-from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
 
 def raiz(request):
+    request.session['django_language'] = 'en'
     list_rentas = Renta.objects.all().order_by('-id')[0:3]
     return render(request, 'indice.html', {'rentas': list_rentas})
 

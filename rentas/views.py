@@ -40,23 +40,6 @@ def detalles(request,offset):
             form = FormularioReservas(request.POST)
             if form.is_valid():
                 cd = form.data
-                entrada = datetime.datetime.strptime(cd['fecha_entrada'],"%Y-%m-%d").date()
-                salida = datetime.datetime.strptime(cd['fecha_salida'],"%Y-%m-%d").date()
-                if entrada > salida:
-                    error_fecha = "La fecha de entrada es posterior a la de salida"
-                    form = FormularioReservas(request.POST)
-                    formcomentario = FormularioComentario()
-                    return render(request, 'detalles.html',
-                                  {'rentas': list_rentas, 'form': form, 'formcomentario': formcomentario,
-                                   'salida': salida, 'comentarios': list_comentarios, 'error_fecha':error_fecha})
-                if entrada < date.today():
-                    error_fecha = "La fecha de entrada está en el pasado"
-                    form = FormularioReservas(request.POST)
-                    formcomentario = FormularioComentario()
-                    return render(request, 'detalles.html',
-                                  {'rentas': list_rentas, 'form': form, 'formcomentario': formcomentario,
-                                   'salida': salida, 'comentarios': list_comentarios, 'error_fecha':error_fecha})
-
                 renta = Renta.objects.get(id=offset)
                 reserva = Reservacion.objects.filter(Q(renta=renta), Q(
                     fecha_entrada__range=(cd['fecha_entrada'], cd['fecha_salida'])) | Q(
@@ -70,9 +53,9 @@ def detalles(request,offset):
                                                                cantidad_personas=cd['cantidad_personas'],
                                                                renta=renta)
                     nueva_reserva.save()
-                    salida = "exito"
+                    salida = True
                 else:
-                    salida = "fracaso"
+                    salida = False
                 form = FormularioReservas()
                 formcomentario = FormularioComentario()
                 return render(request,'detalles.html', {'rentas':list_rentas,'form': form,'formcomentario':formcomentario,'salida':salida,'comentarios':list_comentarios})
@@ -96,45 +79,34 @@ def formulario_reserva(request):
     else:
         form = FormularioReservas()
     return render(request,'detalles.html',{'form':form})
-
+#TODO: Resolver el problema de la validacion del formulario. Consultar en Internet
 def rentas_list(request):
     if request.method == 'POST':
         form = FormularioFiltro(request.POST)
-        cd = form.data
-        if cd['municipio']!='':
-            if cd['fecha_entrada']!='':
-                entrada = datetime.datetime.strptime(cd['fecha_entrada'],"%Y-%m-%d").date()
-                if entrada<date.today():
-                    error_fecha = "La fecha de entrada está en el pasado"
-                    list_rentas = Renta.objects.all()
-                    form = FormularioFiltro()
-                    rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
-                    return render(request, 'lista.html', {'rentas': rentas, 'form': form,'error_fecha':error_fecha})
-                if cd['fecha_salida'] != '':
-                    salida = datetime.datetime.strptime(cd['fecha_salida'], "%Y-%m-%d").date()
-                    if salida < date.today() or salida<entrada:
-                        error_fecha = "La fecha de salida está en el pasado o es menor que la fecha de entrada"
-                        form = FormularioFiltro()
-                        list_rentas = Renta.objects.all()
-                        rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
-                        return render(request, 'lista.html',
-                                      {'rentas': rentas, 'form': form, 'error_fecha': error_fecha})
+        if form.is_valid():
+            cd = form.data
+            if cd['municipio']!='':
+                if cd['fecha_entrada']!='' and cd['fecha_salida'] != '':
                     form = FormularioFiltro()
                     list_rentas = Renta.objects.filter(municipio_id=cd['municipio']).exclude(
                         Q(reservacion__fecha_entrada__range=(cd['fecha_entrada'], cd['fecha_salida']))|
                         Q(reservacion__fecha_salida__range=(cd['fecha_entrada'], cd['fecha_salida'])))
                     rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
                     return render(request, 'lista.html',{'rentas': rentas, 'form': form,})
-            list_rentas = Renta.objects.filter(municipio_id=cd['municipio'])
-            fmunicipio=Municipio.objects.get(id=cd['municipio'])
-            form = FormularioFiltro()
-            rentas = rentas_paginadas(request.GET.get('page'),list_rentas)
-            return render(request, 'lista.html', {'rentas': rentas,'form':form,'fmunicipio':fmunicipio})
-        else:
-            list_rentas = Renta.objects.all()
-            form = FormularioFiltro()
-            rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
-            return render(request, 'lista.html', {'rentas': rentas, 'form': form,})
+                list_rentas = Renta.objects.filter(municipio_id=cd['municipio'])
+                fmunicipio=Municipio.objects.get(id=cd['municipio'])
+                form = FormularioFiltro()
+                rentas = rentas_paginadas(request.GET.get('page'),list_rentas)
+                return render(request, 'lista.html', {'rentas': rentas,'form':form,'fmunicipio':fmunicipio})
+            else:
+                list_rentas = Renta.objects.all()
+                form = FormularioFiltro()
+                rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
+                return render(request, 'lista.html', {'rentas': rentas, 'form': form,})
+        list_rentas = Renta.objects.all()
+        form = FormularioFiltro()
+        rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
+        return render(request, 'lista.html', {'rentas': rentas, 'form': form,})
     else:
         list_rentas = Renta.objects.all()
         form = FormularioFiltro()

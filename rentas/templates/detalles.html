@@ -1,4 +1,5 @@
 {% extends "rentas_base.html" %}
+{% load i18n %}
 {% load static from staticfiles %}
 {% block title %}Rentas Camagüey :: Tecnocasas{% endblock %}
 {% block script %}
@@ -45,67 +46,134 @@
                         {% if form.errors %}
                             <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
                                 <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-                                Por favor corrija lo siguiente</p>
+                                {% trans "Por favor corrija lo siguiente" %}</p>
                             </div>
                         {% endif %}
-                         {% if error_fecha %}
-                            <div class="ui-widget">
-                                <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-                                    <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-                                    <strong>Error:</strong> {{ error_fecha }}</p>
-                                </div>
-                            </div>
-                         {% endif %}
+                        <div class="forms">
                         <form action="" method="POST">{% csrf_token %}
-                            <h2>Reserve ahora</h2>
+                            <h2>{%  trans "Reserve ahora" %}</h2>
                             <table width="100%">
+                                {% if form.fecha_entrada.errors %}
+                                    <tr>
+                                        <td colspan="2">
+                                          <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                                {{ form.fecha_entrada.errors }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
                                 <tr>
-                                    <td align="right">Fercha de entrada</td><td><input name='fecha_entrada' type="text" id="id_date_entrada"></td>
+                                    <td align="right">{% trans "Fecha de entrada" %}</td><td><input name='fecha_entrada' type="text" id="id_date_entrada"></td>
                                 </tr>
+                                {% if form.fecha_salida.errors %}
+                                    <tr>
+                                        <td colspan="2">
+                                          <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                                {{ form.fecha_salida.errors }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
                                 <tr>
-                                    <td align="right">Fecha de salida</td><td><input name='fecha_salida' type="text" id="id_date_salida"></td>
+                                    <td align="right">{% trans "Fecha de salida" %}</td><td><input name='fecha_salida' type="text" id="id_date_salida"></td>
                                 </tr>
+                                {% if form.nombre_cliente.errors %}
+                                    <tr>
+                                        <td colspan="2">
+                                          <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                                {{ form.nombre_cliente.errors }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
                                 <tr>
-                                    <td align="right">Nombre del cliente</td><td> {{ form.nombre_cliente }}</td>
+                                    <td align="right">{% trans "Nombre del cliente" %}</td><td> {{ form.nombre_cliente }}</td>
                                 </tr>
+                                {% if form.email_cliente.errors %}
+                                    <tr>
+                                        <td colspan="2">
+                                          <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                                {{ form.email_cliente.errors }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
                                 <tr>
-                                    <td align="right">Correo electrónico</td><td> {{ form.email_cliente }}</td>
+                                    <td align="right">{%  trans "Correo electrónico" %}</td><td> {{ form.email_cliente }}</td>
                                 </tr>
+                                {% if form.cantidad_personas.errors %}
+                                    <tr>
+                                        <td colspan="2">
+                                          <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                                {{ form.cantidad_personas.errors }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
                                 <tr>
-                                    <td align="right">Cantidad de personas</td><td> {{ form.cantidad_personas  }}</td>
+                                    <td align="right">{%  trans "Cantidad de personas" %}</td><td> {{ form.cantidad_personas  }}</td>
                                 </tr>
                             </table>
-                            <div align="center"><input type="submit" value="Enviar" /></div>
+                            <div align="center"><input type="submit" value={% trans "Enviar" %} /></div>
                         </form>
-                        {% if salida == "exito" %}
+                        </div>
+                        {% if salida == True %}
                             <div class="ui-widget">
                                 <div class="ui-state-checked ui-corner-all" style="padding: 0 .7em;">
                                     <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-                                    Su reserva ha sido creada satisfactoriamente, recuerde que debe confirmarlo 15 días antes de su llegada luego de pasado este período no tendra reclamación.</p>
+                                    {% trans "Su reserva ha sido creada satisfactoriamente, recuerde que debe confirmarlo 15 días antes de su llegada luego de pasado este período no tendra reclamación."%}</p>
                                 </div>
                             </div>
                         {% endif %}
-                        {% if salida == "fracaso" %}
+                        {% if salida == False %}
                             <div class="ui-widget">
                                 <div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
                                     <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-                                    Sentimos informarle que no ha sido posible reservar para la fecha que ha pedido, por favor le rogamos nos disculpe las molestias que esto le pueda ocasionar.</p>
+                                    {% trans "Sentimos informarle que no ha sido posible reservar para la fecha que ha pedido, por favor le rogamos nos disculpe las molestias que esto le pueda ocasionar." %}</p>
                                 </div>
                             </div>
                         {% endif %}
                         {% if formcomentario.errors %}
-                            <p style="color:red;font-weight: bold;">Por favor corrija lo siguiente</p>
+                            <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                                 {% trans "Por favor corrija lo siguiente" %}</p>
+                            </div>
                         {% endif %}
+                        <div class="forms">
                         <form action="" method="POST">{% csrf_token %}
-                            <h2>Comente sus experiencias</h2>
+                            <h2>{% trans "Comente sus experiencias" %}</h2>
 
                             <table width="100%">
-                                {{ formcomentario.as_table }}
+                                {% if formcomentario.nombre.errors %}
+                                    <tr>
+                                        <td colspan="2">
+                                          <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                                {{ formcomentario.nombre.errors }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                                <tr>
+                                    <td align="right">{{ formcomentario.nombre.label }}</td><td>{{ formcomentario.nombre }}</td>
+                                </tr>
+                                {% if formcomentario.comentario.errors %}
+                                    <tr>
+                                        <td colspan="2">
+                                          <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                                {{ formcomentario.comentario.errors }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                                <tr>
+                                    <td align="right">{{ formcomentario.comentario.label }}</td><td>{{ formcomentario.comentario }}</td>
+                                </tr>
                             </table>
-                            <div align="center"><input type="submit" value="Enviar" /></div>
+                            <div align="center"><input type="submit" value={% trans "Enviar" %} /></div>
                         </form>
+                        </div>
                     </td>
-                    <td align="center">
+                    <td align="center" valign="top">
                         <table border="0" cellpadding="3" cellspacing="0" >
                                 <tr >
                                     <td valign="top">
@@ -162,7 +230,6 @@
                     </td>
                 </tr>
             </table>
-
     {% endfor %}
 {% endif %}
 </div>
