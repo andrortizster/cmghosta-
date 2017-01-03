@@ -1,4 +1,5 @@
 {% extends "rentas_base.html" %}
+{% load i18n %}
 {% load static from staticfiles %}
 {% block title %}Rentas Camagüey :: Tecnocasas{% endblock %}
 {% block script %}
@@ -43,43 +44,90 @@
                 <tr >
                     <td width="400px" align="left" valign="top" bgcolor="#f0ffff" style="border-right: 2px solid #687777">
                         <div align="center">
-                                            {% if form.errors %}
-                                                <div class="ui-widget">
-                                                    <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-                                                        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-                                                        <strong>Error:</strong> Por favor corrija lo siguiente</p>
-                                                    </div>
+                            {% if form.errors %}
+                                <div class="ui-widget">
+                                    <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                                        <strong>Error:</strong> Por favor corrija lo siguiente</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="forms">
+                            <form action="" method="POST">{% csrf_token %}
+                                <h2>{% trans "Mostrar las rentas de" %}:</h2>
+                                <table width="100%">
+                                    {% if form.provincia.errors %}
+                                        <tr>
+                                            <td colspan="2">
+                                              <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                                    {{ form.provincia.errors }}
                                                 </div>
-                                            {% endif %}
-                                            <form action="" method="POST">{% csrf_token %}
-                                                <h2>Mostrar las rentas de:</h2>
-                                                <table width="100%">
-                                                    <tr>
-                                                        <td align="right">Provincia</td><td>{{ form.provincia }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="right">Municipio</td> <td>{{ form.municipio }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="right">Fercha de entrada</td><td><input name='fecha_entrada' type="text" id="id_date_entrada"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="right">Fecha de saldida</td><td><input name='fecha_salida' type="text" id="id_date_salida"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="right">Dinero a gastar</td><td> {{ form.dinero }}</td>
-                                                    </tr>
-                                                </table>
-                                                <div align="center"><input type="submit" value="Enviar" /></div>
-                                            </form>
-                                            {% if error_fecha %}
-                                                <div class="ui-widget">
-                                                    <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-                                                        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-                                                        <strong>Error:</strong> {{ error_fecha }}</p>
-                                                    </div>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <td align="right">{% trans "Provincia" %}</td><td>{{ form.provincia }}</td>
+                                    </tr>
+                                    {% if form.municipio.errors %}
+                                        <tr>
+                                            <td colspan="2">
+                                              <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                                    {{ form.municipio.errors }}
                                                 </div>
-                                            {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <td align="right">{% trans "Municipio" %}</td> <td>{{ form.municipio }}</td>
+                                    </tr>
+                                    {% if form.fecha_entrada.errors %}
+                                        <tr>
+                                            <td colspan="2">
+                                              <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                                    {{ form.fecha_entrada.errors }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <td align="right">{% trans "Fecha de entrada" %}</td><td><input name='fecha_entrada' type="text" id="id_date_entrada"></td>
+                                    </tr>
+                                    {% if form.fecha_salida.errors %}
+                                        <tr>
+                                            <td colspan="2">
+                                              <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                                    {{ form.fecha_salida.errors }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <td align="right">{% trans "Fecha de salida" %}</td><td><input name='fecha_salida' type="text" id="id_date_salida"></td>
+                                    </tr>
+                                    {% if form.dinero.errors %}
+                                        <tr>
+                                            <td colspan="2">
+                                              <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                                    {{ form.dinero.errors }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <td align="right">{% trans "Dinero a gastar" %}</td><td> {{ form.dinero }}</td>
+                                    </tr>
+                                </table>
+                                <div align="center"><input type="submit" value={% trans "Enviar" %} /></div>
+                            </form>
+                            </div>
+                            {% if error_fecha %}
+                                <div class="ui-widget">
+                                    <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                        <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                                        <strong>Error:</strong> {{ error_fecha }}</p>
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
 
                     </td>

@@ -23,6 +23,15 @@ class Servicio(models.Model):
     def __str__(self):
         return self.nombre
 
+class Mes(models.Model):
+    nombre = models.CharField(max_length=11)
+
+    def __str__(self):
+        return self.nombre
+
+    class Meta:
+        verbose_name_plural="Meses"
+
 class Renta(models.Model):
     nombre = models.CharField(max_length=150)
     propietario = models.CharField(max_length=150)
@@ -36,6 +45,9 @@ class Renta(models.Model):
     descrizione = models.TextField(verbose_name='Descripción en Italiano',default = 'Digitare la descrizione della proprietà')
     municipio = models.ForeignKey(Municipio)
     imagen = models.ImageField(upload_to='rentas',null = True,blank = True)
+    precio_ta = models.FloatField(default=0)
+    precio_tb = models.FloatField(default=0)
+    meses_ta = models.ManyToManyField(Mes)
     servicio = models.ManyToManyField(Servicio)
 
     def __str__(self):
@@ -54,8 +66,14 @@ class Reservacion(models.Model):
     confirmado = models.BooleanField(default=False)
     renta = models.ForeignKey(Renta)
 
+    class Meta:
+        verbose_name_plural ="Reservaciones"
+
 class Comentarios(models.Model):
     nombre = models.TextField(max_length=150)
     fecha = models.DateField()
     comentario = models.TextField()
     renta = models.ForeignKey(Renta)
+
+    class Meta:
+        verbose_name_plural = "Comentarios"
