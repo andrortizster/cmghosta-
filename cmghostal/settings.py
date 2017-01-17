@@ -55,6 +55,11 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'cmghostal.urls'
 
+#TODO: Verificar como se usan estos parámetros
+EMAIL_HOST = 'localhost'
+EMAIL_HOST_PORT = '25'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -68,7 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.core.context_processors.csrf',
+                'django.template.context_processors.csrf',
             ],
         },
     },
@@ -146,12 +151,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-MEDIA_URL = '/media/'
-
 
 # default static files settings for PythonAnywhere.
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
 MEDIA_ROOT = os.path.join(BASE_DIR, "media") # u'/home/cmghostal/cmghostal/media'
 MEDIA_URL = '/media/'
-STATIC_ROOT =  u'/home/cmghostal/cmghostal/static'
-STATIC_URL = '/static/'

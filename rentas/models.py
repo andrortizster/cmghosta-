@@ -18,6 +18,7 @@ class Municipio(models.Model):
 
 class Servicio(models.Model):
     nombre = models.CharField(max_length=150)
+    name = models.CharField(max_length=150,default='name of service')
     imagen = models.ImageField(upload_to='Servicios',null = True,blank = True)
 
     def __str__(self):
@@ -63,6 +64,7 @@ class Reservacion(models.Model):
     nombre_cliente = models.TextField(max_length=150,verbose_name="Nombre del cliente")
     email_cliente = models.EmailField(verbose_name="Correo electrónico")
     cantidad_personas = models.IntegerField(verbose_name="Cantidad de personas")
+    verificado = models.BooleanField(default=False)
     confirmado = models.BooleanField(default=False)
     renta = models.ForeignKey(Renta)
 

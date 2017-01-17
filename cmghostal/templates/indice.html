@@ -9,6 +9,7 @@
 {% if rentas %}
     {% for r in rentas %}
         <div class="roundedDiv">
+            <!--TODO: Verificar que la renta tenga una imagen si no poner algo alternativo -->
             <img src="{{ r.imagen.url }}" width="400px" height="200px" /><br/>
             <a href="rentas/detalles/{{ r.id }}">{{ r.nombre }}</a> <br/>
             <table border="0" cellpadding="3" cellspacing="0" >

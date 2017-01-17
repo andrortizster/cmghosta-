@@ -32,12 +32,12 @@
 {% endblock %}
 {% block content %}
     {% if fmunicipio %}
-        <div id="detalle_header">
-                <h1>Mostrando rentas del municipio {{ fmunicipio.nombre }} en la provincia {{ fmunicipio.provincia.nombre }}</h1>
+        <div class="w3-container w3-green">
+                <h3>Mostrando rentas del municipio {{ fmunicipio.nombre }} en la provincia {{ fmunicipio.provincia.nombre }}</h3>
         </div>
     {% else %}
-        <div id="detalle_header">
-                <h1>Listado de nuestras rentas</h1>
+        <div class="w3-container w3-green" align="center">
+                <h3>{% trans "Listado de nuestras rentas" %}</h3>
         </div>
     {% endif %}
     <table  border="0" cellpadding="0" cellspacing="3" width="100%" height="100%" >
@@ -164,36 +164,51 @@
                                 <tr>
                                     <td>
                                         {% for r in rentas %}
-                                            <div class="roundedDiv">
-                                                <table>
-                                                    <tr>
-                                                        <td>
-                                                            <img src="{{ r.imagen.url }}" width="400px" height="200px" /><br/>
-                                                        </td>
-                                                        <td>
-                                                            <p>{{ r.direccion }}</p>
-                                                            Municipio: {{ r.municipio }} <br/>
-                                                            Provincia: {{ r.municipio.provincia }} <br/>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                            <a href="/rentas/detalles/{{ r.id }}">{{ r.nombre }}</a> <br/>
-                                                            <table border="0" cellpadding="3" cellspacing="0" >
-                                                                <tr>
-                                                                    <td><img src="{% static "cmghostal/images/habitacion.png" %} " alt="Habitaciones" title="Cantidad de habitaciones"/></td>
-                                                                    <td>{{ r.habitaciones }}</td>
-                                                                    {%  if r.servicio.all %}
-                                                                        <td>
-                                                                        {% for s in r.servicio.all %}
-                                                                            <img src="{{ s.imagen.url }}" alt="{{ s.nombre }}" title="{{ s.nombre }}"/>&nbsp;
-                                                                        {% endfor %}
-                                                                        </td>
-                                                                    {% endif %}
+                                                <div class="w3-panel w3-round-large w3-border w3-border-green">
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <img src="{{ r.imagen.url }}" width="400px" height="200px" /><br/>
+                                                            </td>
+                                                            <td>
+                                                                <p>{{ r.direccion }}</p>
+                                                                {% trans "Municipio" %}: {{ r.municipio }} <br/>
+                                                                {% trans "Provincia" %}: {{ r.municipio.provincia }} <br/>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                                <a href="/rentas/detalles/{{ r.id }}">{{ r.nombre }}</a> <br/>
+                                                                <table border="0" cellpadding="3" cellspacing="0" >
+                                                                    <tr>
+                                                                        <td><img src="{% static "cmghostal/images/habitacion.png" %} " alt="Habitaciones" title="Cantidad de habitaciones"/></td>
+                                                                        <td>{{ r.habitaciones }}</td>
+                                                                        {%  if r.servicio.all %}
+                                                                            <td>
+                                                                            {% for s in r.servicio.all %}
+                                                                                <img src="{{ s.imagen.url }}" alt="
+                                                                                {% if LANGUAGE_CODE == "es" %}
+                                                                                    {{ s.nombre }}
+                                                                                {% endif %}
+                                                                                {%if LANGUAGE_CODE == "en" %}
+                                                                                    {{ s.name}}
+                                                                                {% endif %}
+                                                                                " title="
+                                                                                {% if LANGUAGE_CODE == "es" %}
+                                                                                    {{ s.nombre }}
+                                                                                {% endif %}
+                                                                                {%if LANGUAGE_CODE == "en" %}
+                                                                                    {{ s.name}}
+                                                                                {% endif %}
 
-                                                                </tr>
-                                                            </table>
+                                                                                "/>&nbsp;
+                                                                            {% endfor %}
+                                                                            </td>
+                                                                        {% endif %}
 
-                                            </div><br/>
+                                                                    </tr>
+                                                                </table>
+
+                                                </div><br/>
                                         {% endfor %}
                                     </td>
                                 </tr>
