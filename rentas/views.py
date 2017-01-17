@@ -82,7 +82,7 @@ def formulario_reserva(request):
 #TODO: Resolver el problema de la validacion del formulario. Consultar en Internet
 #TODO: Resolver el problema del envio de correos.
 #TODO: Metodo para enviar link encriptado
-#TODO: Obtener el mes de un string con fecha
+
 """
     La idea general es que cuando se verifique una reserva se envie un correo
     al dueño del sitio que la confirmara previa consulta con la casa de renta
@@ -93,7 +93,8 @@ def rentas_list(request):
         cd = form.data
         if cd['municipio']!='':
             if cd['fecha_entrada']!='' and cd['fecha_salida'] != '':
-                dateIn = date(int(cd['fecha_entrada']))
+                dateIn = datetime.datetime.strptime(cd['fecha_entrada'],"%Y-%m-%d")
+                dateIn.month()
                 form = FormularioFiltro()
                 list_rentas = Renta.objects.filter(municipio_id=cd['municipio']).exclude(
                     Q(reservacion__fecha_entrada__range=(cd['fecha_entrada'], cd['fecha_salida']))|
