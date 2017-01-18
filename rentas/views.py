@@ -94,13 +94,13 @@ def rentas_list(request):
         if cd['municipio']!='':
             if cd['fecha_entrada']!='' and cd['fecha_salida'] != '':
                 dateIn = datetime.datetime.strptime(cd['fecha_entrada'],"%Y-%m-%d")
-                dateIn.month()
+                mes = dateIn.month
                 form = FormularioFiltro()
                 list_rentas = Renta.objects.filter(municipio_id=cd['municipio']).exclude(
                     Q(reservacion__fecha_entrada__range=(cd['fecha_entrada'], cd['fecha_salida']))|
                     Q(reservacion__fecha_salida__range=(cd['fecha_entrada'], cd['fecha_salida'])))
                 rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
-                return render(request, 'lista.html',{'rentas': rentas, 'form': form,})
+                return render(request, 'lista.html',{'rentas': rentas, 'form': form, 'mes':mes})
             list_rentas = Renta.objects.filter(municipio_id=cd['municipio'])
             fmunicipio=Municipio.objects.get(id=cd['municipio'])
             form = FormularioFiltro()

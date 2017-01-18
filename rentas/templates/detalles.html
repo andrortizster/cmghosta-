@@ -32,6 +32,7 @@
   </style>
 {% endblock %}
 {% block content %}
+
 <div align="center">
 
 {% if rentas %}
@@ -39,6 +40,7 @@
             <div class="w3-container w3-green">
                 <h3>{{ r.nombre }}</h3>
             </div>
+            <a href="javascript:history.go(-1)">Volver</a>
             <table  border="0" cellpadding="0" cellspacing="3" width="100%" >
                 <tr >
                     <td width="400px" align="left" valign="top" bgcolor="#f0ffff" style="border-right: 2px solid #687777">

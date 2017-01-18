@@ -35,7 +35,6 @@ class FormularioFiltro(forms.Form):
     municipio = forms.ModelChoiceField(models.Municipio.objects.none(), empty_label=_("(Seleccione un municipio)"),required=True)
     fecha_entrada = forms.DateField(label=_("Fecha de entrada"), widget=forms.DateInput(attrs={'class': 'datepicker'}))
     fecha_salida = forms.DateField(label=_("Fecha de salida"), widget=forms.DateInput(attrs={'class': 'datepicker'}))
-    dinero = forms.FloatField(label=_("Máximo dinero a gastar"))
 
     def clean_fecha_entrada(self):
         if self.cleaned_data['fecha_entrada'] != '' and self.data['fecha_salida']!='':

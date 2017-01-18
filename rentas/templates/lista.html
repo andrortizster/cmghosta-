@@ -1,5 +1,6 @@
 {% extends "rentas_base.html" %}
 {% load i18n %}
+{% load rentas_tags %}
 {% load static from staticfiles %}
 {% block title %}Rentas Camagüey :: Tecnocasas{% endblock %}
 {% block script %}
@@ -32,7 +33,7 @@
 {% endblock %}
 {% block content %}
     {% if fmunicipio %}
-        <div class="w3-container w3-green">
+        <div class="w3-container w3-green" align="center">
                 <h3>Mostrando rentas del municipio {{ fmunicipio.nombre }} en la provincia {{ fmunicipio.provincia.nombre }}</h3>
         </div>
     {% else %}
@@ -104,18 +105,6 @@
                                     <tr>
                                         <td align="right">{% trans "Fecha de salida" %}</td><td><input name='fecha_salida' type="text" id="id_date_salida"></td>
                                     </tr>
-                                    {% if form.dinero.errors %}
-                                        <tr>
-                                            <td colspan="2">
-                                              <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-                                                    {{ form.dinero.errors }}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    {% endif %}
-                                    <tr>
-                                        <td align="right">{% trans "Dinero a gastar" %}</td><td> {{ form.dinero }}</td>
-                                    </tr>
                                 </table>
                                 <div align="center"><input type="submit" value={% trans "Enviar" %} /></div>
                             </form>
@@ -171,42 +160,66 @@
                                                                 <img src="{{ r.imagen.url }}" width="400px" height="200px" /><br/>
                                                             </td>
                                                             <td>
-                                                                <p>{{ r.direccion }}</p>
-                                                                {% trans "Municipio" %}: {{ r.municipio }} <br/>
-                                                                {% trans "Provincia" %}: {{ r.municipio.provincia }} <br/>
+                                                                <div class="w3-card-4" >
+                                                                    <header class="w3-container w3-light-green">
+                                                                        <a href="/rentas/detalles/{{ r.id }}"><h4>{{ r.nombre }}</h4></a>
+                                                                    </header>
+                                                                    <div class="w3-container" style="width: 100%">
+                                                                        <p>{{ r.direccion }}</p>
+                                                                        {% trans "Municipio" %}: {{ r.municipio }} <br/>
+                                                                        {% trans "Provincia" %}: {{ r.municipio.provincia }} <br/>
+                                                                        {% if mes  %}
+
+                                                                            {% for m in r.meses_ta.all %}
+                                                                                {% if mes == m.id %}
+                                                                                    Precio por habitación: {{ r.precio_ta }}
+                                                                                    {% set_temporada as ta %}
+                                                                                {% else %}
+                                                                                    {% unset_temporada as ta %}
+                                                                                {% endif %}
+                                                                            {% endfor %}
+                                                                            {% if ta == False %}
+                                                                                Precio por habitación: {{ r.precio_tb }}
+                                                                            {% endif %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                    <footer class="w3-container w3-light-green">
+                                                                        <table border="0" cellpadding="3" cellspacing="0" >
+                                                                            <tr>
+                                                                                <td><img src="{% static "cmghostal/images/habitacion.png" %} " alt="Habitaciones" title="Cantidad de habitaciones"/></td>
+                                                                                <td>{{ r.habitaciones }}</td>
+                                                                                {%  if r.servicio.all %}
+                                                                                    <td>
+                                                                                    {% for s in r.servicio.all %}
+                                                                                        <img src="{{ s.imagen.url }}" alt="
+                                                                                        {% if LANGUAGE_CODE == "es" %}
+                                                                                            {{ s.nombre }}
+                                                                                        {% endif %}
+                                                                                        {%if LANGUAGE_CODE == "en" %}
+                                                                                            {{ s.name}}
+                                                                                        {% endif %}
+                                                                                        " title="
+                                                                                        {% if LANGUAGE_CODE == "es" %}
+                                                                                            {{ s.nombre }}
+                                                                                        {% endif %}
+                                                                                        {%if LANGUAGE_CODE == "en" %}
+                                                                                            {{ s.name}}
+                                                                                        {% endif %}
+
+                                                                                        "/>&nbsp;
+                                                                                    {% endfor %}
+                                                                                    </td>
+                                                                                {% endif %}
+
+                                                                            </tr>
+                                                                        </table>
+                                                                    </footer>
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     </table>
-                                                                <a href="/rentas/detalles/{{ r.id }}">{{ r.nombre }}</a> <br/>
-                                                                <table border="0" cellpadding="3" cellspacing="0" >
-                                                                    <tr>
-                                                                        <td><img src="{% static "cmghostal/images/habitacion.png" %} " alt="Habitaciones" title="Cantidad de habitaciones"/></td>
-                                                                        <td>{{ r.habitaciones }}</td>
-                                                                        {%  if r.servicio.all %}
-                                                                            <td>
-                                                                            {% for s in r.servicio.all %}
-                                                                                <img src="{{ s.imagen.url }}" alt="
-                                                                                {% if LANGUAGE_CODE == "es" %}
-                                                                                    {{ s.nombre }}
-                                                                                {% endif %}
-                                                                                {%if LANGUAGE_CODE == "en" %}
-                                                                                    {{ s.name}}
-                                                                                {% endif %}
-                                                                                " title="
-                                                                                {% if LANGUAGE_CODE == "es" %}
-                                                                                    {{ s.nombre }}
-                                                                                {% endif %}
-                                                                                {%if LANGUAGE_CODE == "en" %}
-                                                                                    {{ s.name}}
-                                                                                {% endif %}
 
-                                                                                "/>&nbsp;
-                                                                            {% endfor %}
-                                                                            </td>
-                                                                        {% endif %}
 
-                                                                    </tr>
-                                                                </table>
 
                                                 </div><br/>
                                         {% endfor %}
