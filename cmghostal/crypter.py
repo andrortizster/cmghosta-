@@ -1,6 +1,6 @@
 
-patron_busqueda = "AF#GiI!b6Kf9Lr/Ns;OyP QxR*3+WZaT=cYde_D0Egh:Vj.HklmXnSñCopqtJvwz1-2M45Ñ78B";
-patron_encripta = "cD5i:E7F*JmL_ÑOPQ+S10TX.3Y=!Z4abG dKfgh8jkl#nN;Hño/pVW-qrAsMtCvIwRxyz2B6e9";
+patron_busqueda = "AF]GiI!b6Kf9Lr>Ns;OyP QxR*3+WZaT=cYde_D0Egh:Vj.HklmXnSñCopqtJvwz1-2M45Ñ78B";
+patron_encripta = "cD5i:E7F*JmL_ÑOPQ+S10TX.3Y=!Z4abG dKfgh8jkl[nN;Hño<pVW-qrAsMtCvIwRxyz2B6e9";
 
 
 def EncriptarCadena(cadena):

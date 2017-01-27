@@ -26,6 +26,8 @@ SECRET_KEY = '+&w--*#py0kr$b=dgo-b9y64ko+f$ua3rxul9=mk*g5$!v=%r5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+TEMPLATE_DEBUG = True
+
 ALLOWED_HOSTS = []
 
 
@@ -56,9 +58,13 @@ MIDDLEWARE_CLASSES = [
 ROOT_URLCONF = 'cmghostal.urls'
 
 #TODO: Verificar como se usan estos parámetros
-EMAIL_HOST = 'localhost'
-EMAIL_HOST_PORT = '25'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_PASSWORD = 'tecno025*' #my gmail password
+EMAIL_HOST_USER = 'tecnocasas.53@gmail.com' #my gmail username
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 TEMPLATES = [
     {

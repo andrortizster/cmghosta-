@@ -19,11 +19,13 @@ from cmghostal.views import *
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles import views
+from . import views as cmgviews
 
 urlpatterns = [
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^$', raiz),
+    url(r'^contacto/$', cmgviews.contacto),
     url(r'^registro/$',registro),
     url(r'^admin/', admin.site.urls),
-    url(r'^rentas/', include('rentas.urls'))
+    url(r'^rentas/', include('rentas.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -8,6 +8,7 @@ from django.db.models import Q
 from datetime import date
 import json as simplejson
 import datetime
+import cmghostal.crypter as crypter
 
 
 
@@ -146,3 +147,7 @@ def rentas_paginadas(page,list_rentas):
         rentas = paginator.page(paginator.num_pages)
 
     return rentas
+
+def verificar(request,renta):
+    renta_decrypted = crypter.DesEncriptarCadena(renta)
+    return render(request, 'verificar.html',{'renta':renta_decrypted})

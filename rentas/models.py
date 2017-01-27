@@ -48,8 +48,8 @@ class Renta(models.Model):
     imagen = models.ImageField(upload_to='rentas',null = True,blank = True)
     precio_ta = models.FloatField(default=0)
     precio_tb = models.FloatField(default=0)
-    meses_ta = models.ManyToManyField(Mes)
-    servicio = models.ManyToManyField(Servicio)
+    meses_ta = models.ManyToManyField(Mes,verbose_name='Meses Temp. Alta')
+    servicio = models.ManyToManyField(Servicio,verbose_name='Servicios')
 
     def __str__(self):
         return self.nombre

@@ -12,7 +12,10 @@ class ServicioAdmin(admin.ModelAdmin):
     list_display = ('nombre',)
 
 class RentaAdmin(admin.ModelAdmin):
-    list_display = ('nombre',)
+    list_display = ('nombre','propietario',)
+    filter_horizontal = ('meses_ta','servicio',)
+    raw_id_fields = ('municipio',)
+    search_fields = ('nombre',)
 
 class GaleriaAdmin(admin.ModelAdmin):
     list_display = ('imagen',)

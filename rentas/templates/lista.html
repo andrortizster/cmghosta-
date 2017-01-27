@@ -26,6 +26,15 @@
            json_to_select('/rentas/encuentra_municipios/?provincia=' + $(this).val(), '#id_municipio');
          })
         });
+		
+		function openAccordion(id) {
+			var x = document.getElementById(id);
+			if (x.className.indexOf("w3-show") == -1) {
+				x.className += " w3-show";
+			} else { 
+				x.className = x.className.replace(" w3-show", "");
+			}
+		}		
 
 
 
@@ -118,7 +127,13 @@
                                 </div>
                             {% endif %}
                         </div>
-
+						<div class="w3-accordion w3-light-green">
+							<button onclick="openAccordion('Abrir_rentas')" class="w3-btn-block w3-left-align w3-green">{{ _('Para buscar las rentas') }}</button>
+							<div id="Abrir_rentas" class="w3-accordion-content w3-container">
+								<p>{% blocktrans %}Para encontrar lo que busca deberá especificar primeramente Provincia y Municipio a donde desea viajar, si especifica la fecha de entrada y salida se le mostrarán los precios de las casas buscadas para esos meses en que desee hospedarse{%  endblocktrans %}</p>
+							</div>
+						</div>
+                        
                     </td>
                     <td valign="top">
                         {% if rentas %}

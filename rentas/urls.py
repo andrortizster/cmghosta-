@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^detalles/(\d+)/$',views.detalles),
     url(r'^lista/$',views.rentas_list),
     url(r'^encuentra_municipios/$', views.encuentra_municipios, name='encuentra_municipios'),
+    url(r'^verificar/(.+)/$',views.verificar),
 ]

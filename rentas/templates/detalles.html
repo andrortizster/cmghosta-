@@ -4,6 +4,10 @@
 {% block title %}Rentas Camagüey :: Tecnocasas{% endblock %}
 {% block script %}
     <script>
+        var dir = window.document.URL;
+        var dir2 = encodeURIComponent(dir);
+        var tit = window.document.title;
+        var tit2 = encodeURIComponent(tit);
 
         $(document).ready(function(){
             $('.bxslider').bxSlider({
@@ -173,6 +177,17 @@
                             </table>
                             <div align="center"><input type="submit" value={% trans "Enviar" %} /></div>
                         </form>
+
+                        <a href="javascript:window.location.href='http://www.facebook.com/share.php?u='+encodeURIComponent(location);void0;">
+                            <img src="{% static "cmghostal/images/Facebook-PNG-Pic.png" %}" title="Compartir en Facebook" width="32px" height="32px"/>
+                        </a>
+                        <a href="javascript:window.location.href='https://plus.google.com/share?url='+encodeURIComponent(location);void0;">
+                            <img src="{% static "cmghostal/images/googleplus.png" %}" title="Compartir en Google+" width="32px" height="32px"/>
+                        </a>
+                        <a href="javascript:window.location.href='http://twitter.com/?status='+encodeURIComponent(location);void0;">
+                            <img src="{% static "cmghostal/images/twittericon.png" %}" title="Compartir en Twitter" width="32px" height="32px"/>
+                        </a>
+
                         </div>
                     </td>
                     <td align="center" valign="top">
