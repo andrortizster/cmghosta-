@@ -1,13 +1,8 @@
 {% extends "rentas_base.html" %}
-{% load i18n %}
 {% load static from staticfiles %}
 {% block title %}Rentas Camagüey :: Tecnocasas{% endblock %}
 {% block script %}
     <script>
-        var dir = window.document.URL;
-        var dir2 = encodeURIComponent(dir);
-        var tit = window.document.title;
-        var tit2 = encodeURIComponent(tit);
 
         $(document).ready(function(){
             $('.bxslider').bxSlider({
@@ -36,180 +31,60 @@
   </style>
 {% endblock %}
 {% block content %}
-
 <div align="center">
 
 {% if rentas %}
     {% for r in rentas %}
-            <div class="w3-container w3-green">
-                <h3>{{ r.nombre }}</h3>
+            <div id="detalle_header">
+                <h1>{{ r.nombre }}</h1>
             </div>
-            <a href="javascript:history.go(-1)">Volver</a>
             <table  border="0" cellpadding="0" cellspacing="3" width="100%" >
                 <tr >
                     <td width="400px" align="left" valign="top" bgcolor="#f0ffff" style="border-right: 2px solid #687777">
 
                         {% if form.errors %}
-                            <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-                                <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-                                {% trans "Por favor corrija lo siguiente" %}</p>
-                            </div>
+                            <p style="color:red;font-weight: bold;">Por favor corrija lo siguiente</p>
                         {% endif %}
-                        <div class="forms">
                         <form action="" method="POST">{% csrf_token %}
-                            <h2>{%  trans "Reserve ahora" %}</h2>
+                            <h2>Reserve ahora</h2>
+
                             <table width="100%">
-                                {% if form.fecha_entrada.errors %}
-                                    <tr>
-                                        <td colspan="2">
-                                          <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-                                                {{ form.fecha_entrada.errors }}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                                <tr>
-                                    <td align="right">{% trans "Fecha de entrada" %}</td><td><input name='fecha_entrada' type="text" id="id_date_entrada"></td>
-                                </tr>
-                                {% if form.fecha_salida.errors %}
-                                    <tr>
-                                        <td colspan="2">
-                                          <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-                                                {{ form.fecha_salida.errors }}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                                <tr>
-                                    <td align="right">{% trans "Fecha de salida" %}</td><td><input name='fecha_salida' type="text" id="id_date_salida"></td>
-                                </tr>
-                                {% if form.nombre_cliente.errors %}
-                                    <tr>
-                                        <td colspan="2">
-                                          <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-                                                {{ form.nombre_cliente.errors }}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                                <tr>
-                                    <td align="right">{% trans "Nombre del cliente" %}</td><td> {{ form.nombre_cliente }}</td>
-                                </tr>
-                                {% if form.email_cliente.errors %}
-                                    <tr>
-                                        <td colspan="2">
-                                          <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-                                                {{ form.email_cliente.errors }}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                                <tr>
-                                    <td align="right">{%  trans "Correo electrónico" %}</td><td> {{ form.email_cliente }}</td>
-                                </tr>
-                                {% if form.cantidad_personas.errors %}
-                                    <tr>
-                                        <td colspan="2">
-                                          <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-                                                {{ form.cantidad_personas.errors }}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                                <tr>
-                                    <td align="right">{%  trans "Cantidad de personas" %}</td><td> {{ form.cantidad_personas  }}</td>
-                                </tr>
+                                {{ form.as_table }}
                             </table>
-                            <div align="center"><input type="submit" value={% trans "Enviar" %} /></div>
+                            <div align="center"><input type="submit" value="Enviar" /></div>
                         </form>
-                        </div>
-                        {% if salida == True %}
-                            <div class="ui-widget">
-                                <div class="ui-state-checked ui-corner-all" style="padding: 0 .7em;">
-                                    <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-                                    {% trans "Su reserva ha sido creada satisfactoriamente, recuerde que debe confirmarlo 15 días antes de su llegada luego de pasado este período no tendra reclamación."%}</p>
-                                </div>
+                        {% if salida == "exito" %}
+                            <div class="message">
+                                Su reserva ha sido creada satisfactoriamente, recuerde que debe confirmarlo 15 días antes de su llegada luego de pasado este período no tendra reclamación.
                             </div>
                         {% endif %}
-                        {% if salida == False %}
-                            <div class="ui-widget">
-                                <div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
-                                    <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-                                    {% trans "Sentimos informarle que no ha sido posible reservar para la fecha que ha pedido, por favor le rogamos nos disculpe las molestias que esto le pueda ocasionar." %}</p>
-                                </div>
+                        {% if salida == "fracaso" %}
+                            <div class="message">
+                                Sentimos informarle que no ha sido posible reservar para la fecha que ha pedido, por favor le rogamos nos disculpe las molestias que esto le pueda ocasionar.
                             </div>
                         {% endif %}
                         {% if formcomentario.errors %}
-                            <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-                                <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
-                                 {% trans "Por favor corrija lo siguiente" %}</p>
-                            </div>
+                            <p style="color:red;font-weight: bold;">Por favor corrija lo siguiente</p>
                         {% endif %}
-                        <div class="forms">
                         <form action="" method="POST">{% csrf_token %}
-                            <h2>{% trans "Comente sus experiencias" %}</h2>
+                            <h2>Comente sus experiencias</h2>
 
                             <table width="100%">
-                                {% if formcomentario.nombre.errors %}
-                                    <tr>
-                                        <td colspan="2">
-                                          <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-                                                {{ formcomentario.nombre.errors }}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                                <tr>
-                                    <td align="right">{% trans formcomentario.nombre.label %}</td><td>{{ formcomentario.nombre }}</td>
-                                </tr>
-                                {% if formcomentario.comentario.errors %}
-                                    <tr>
-                                        <td colspan="2">
-                                          <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-                                                {{ formcomentario.comentario.errors }}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                                <tr>
-                                    <td align="right">{% trans formcomentario.comentario.label %}</td><td>{{ formcomentario.comentario }}</td>
-                                </tr>
+                                {{ formcomentario.as_table }}
                             </table>
-                            <div align="center"><input type="submit" value={% trans "Enviar" %} /></div>
+                            <div align="center"><input type="submit" value="Enviar" /></div>
                         </form>
-
-                        <a href="javascript:window.location.href='http://www.facebook.com/share.php?u='+encodeURIComponent(location);void0;">
-                            <img src="{% static "cmghostal/images/Facebook-PNG-Pic.png" %}" title="Compartir en Facebook" width="32px" height="32px"/>
-                        </a>
-                        <a href="javascript:window.location.href='https://plus.google.com/share?url='+encodeURIComponent(location);void0;">
-                            <img src="{% static "cmghostal/images/googleplus.png" %}" title="Compartir en Google+" width="32px" height="32px"/>
-                        </a>
-                        <a href="javascript:window.location.href='http://twitter.com/?status='+encodeURIComponent(location);void0;">
-                            <img src="{% static "cmghostal/images/twittericon.png" %}" title="Compartir en Twitter" width="32px" height="32px"/>
-                        </a>
-
-                        </div>
                     </td>
-                    <td align="center" valign="top">
+                    <td align="center">
                         <table border="0" cellpadding="3" cellspacing="0" >
                                 <tr >
                                     <td valign="top">
-                                        <div class="w3-panel w3-round-large w3-border w3-border-green" style="width: 100%">
-                                            <p>
-                                                {% if LANGUAGE_CODE == "es" %}
-                                                    {{ r.descripcion }}
-                                                {% endif %}
-                                                {%if LANGUAGE_CODE == "en" %}
-                                                    {{ r.description }}
-                                                {% endif %}
-                                                {%if LANGUAGE_CODE == "it" %}
-                                                    {{ r.descrizione }}
-                                                {% endif %}
-                                            </p>
-                                            <p> Se encuentra en {{ r.direccion }} municipio {{ r.municipio }} de la provincia {{ r.municipio.provincia }}</p>
+                                        <div class="roundedDiv">
+                                            <p>{{ r.descripcion }}</p>
+                                            <p> Se encuentra en el municipio {{ r.municipio }} de la provincia {{ r.municipio.provincia }}</p>
                                         </div>
                                     </td>
-                                    <td width="500px" valign="top">
+                                    <td width="500px">
                                         <ul class="bxslider">
                                             <li><img src="{{ r.imagen.url }}" alt="{{ r.nombre }}" title="Imagen de la vivienda" width="500px" height="500px"/></li>
                                             {% if r.galeria_set.all %}
@@ -220,31 +95,16 @@
                                             {% endif %}
                                         </ul>
                                     </td>
-                                    <td valign="top" width="40px">
+                                    <td>
                                         <table border="0" cellpadding="3" cellspacing="0" >
                                             <tr>
-                                                <td><img src="{% static "cmghostal/images/habitacion.png" %} " alt={% trans "Habitaciones"%} title={% trans "Cantidad de habitaciones"%}/></td>
+                                                <td><img src="{% static "cmghostal/images/habitacion.png" %} " alt="Habitaciones" title="Cantidad de habitaciones"/></td>
                                                 <td>{{ r.habitaciones }}</td>
                                             </tr>
                                         </table>
                                         {% if r.servicio.all%}
                                             {% for s in r.servicio.all%}
-                                              <p>  <img src="{{ s.imagen.url }}" alt="
-                                                {% if LANGUAGE_CODE == "es" %}
-                                                    {{ s.nombre }}
-                                                {% endif %}
-                                                {%if LANGUAGE_CODE == "en" %}
-                                                    {{ s.name}}
-                                                {% endif %}
-                                                " title="
-                                                {% if LANGUAGE_CODE == "es" %}
-                                                    {{ s.nombre }}
-                                                {% endif %}
-                                                {%if LANGUAGE_CODE == "en" %}
-                                                    {{ s.name}}
-                                                {% endif %}
-
-                                                "/></p>
+                                                <img src="{{ s.imagen.url }}" alt="{{ s.nombre }}" title="{{ s.nombre }}"/><br/>
                                             {% endfor %}
                                         {% endif %}
                                     </td>
@@ -272,13 +132,8 @@
                     </td>
                 </tr>
             </table>
+
     {% endfor %}
 {% endif %}
 </div>
-    <script>
-        $(function() {
-            $( "#id_date_entrada" ).datepicker();
-            $( "#id_date_salida" ).datepicker();
-        });
-    </script>
 {% endblock %}

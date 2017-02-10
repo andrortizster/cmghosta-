@@ -1,16 +1,10 @@
-# -*- coding: utf-8 -*-
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.gis.views import feed
 from django.shortcuts import render,render_to_response
 from django.http import HttpResponse,Http404,HttpResponseRedirect
-from .models import Renta,Galeria,Reservacion,Comentarios,Provincia,Municipio
-from rentas.forms import FormularioReservas,FormularioComentario,FormularioFiltro
+from .models import Renta,Galeria,Reservacion,Comentarios
+from rentas.forms import FormularioReservas,FormularioComentario
 from django.db.models import Q
 from datetime import date
-import json as simplejson
-import datetime
-import cmghostal.crypter as crypter
-
-
 
 # Create your views here.
 def ultimas(request):
@@ -40,7 +34,15 @@ def detalles(request,offset):
         if 'nombre_cliente' in request.POST:
             form = FormularioReservas(request.POST)
             if form.is_valid():
-                cd = form.data
+                cd = form.cleaned_data
+                #fecha_actual = cd['fecha_entrada']
+                #if fecha_actual.<date.now():
+                #    salida = "fecha entrada"
+                #    formcomentario = FormularioComentario()
+                #    return render(request, 'detalles.html',
+                #                  {'rentas': list_rentas, 'form': form, 'formcomentario': formcomentario,
+                #                  'salida': salida})
+
                 renta = Renta.objects.get(id=offset)
                 reserva = Reservacion.objects.filter(Q(renta=renta), Q(
                     fecha_entrada__range=(cd['fecha_entrada'], cd['fecha_salida'])) | Q(
@@ -54,9 +56,9 @@ def detalles(request,offset):
                                                                cantidad_personas=cd['cantidad_personas'],
                                                                renta=renta)
                     nueva_reserva.save()
-                    salida = True
+                    salida = "exito"
                 else:
-                    salida = False
+                    salida = "fracaso"
                 form = FormularioReservas()
                 formcomentario = FormularioComentario()
                 return render(request,'detalles.html', {'rentas':list_rentas,'form': form,'formcomentario':formcomentario,'salida':salida,'comentarios':list_comentarios})
@@ -79,75 +81,4 @@ def formulario_reserva(request):
             return HttpResponseRedirect('formulario_reserva.html',{'form':form, 'salida':salida})
     else:
         form = FormularioReservas()
-    return render(request,'detalles.html',{'form':form})
-#TODO: Resolver el problema de la validacion del formulario. Consultar en Internet
-#TODO: Resolver el problema del envio de correos.
-#TODO: Metodo para enviar link encriptado
-
-"""
-    La idea general es que cuando se verifique una reserva se envie un correo
-    al dueño del sitio que la confirmara previa consulta con la casa de renta
-"""
-def rentas_list(request):
-    if request.method == 'POST':
-        form = FormularioFiltro(request.POST)
-        cd = form.data
-        if cd['municipio']!='':
-            if cd['fecha_entrada']!='' and cd['fecha_salida'] != '':
-                dateIn = datetime.datetime.strptime(cd['fecha_entrada'],"%Y-%m-%d")
-                mes = dateIn.month
-                form = FormularioFiltro()
-                list_rentas = Renta.objects.filter(municipio_id=cd['municipio']).exclude(
-                    Q(reservacion__fecha_entrada__range=(cd['fecha_entrada'], cd['fecha_salida']))|
-                    Q(reservacion__fecha_salida__range=(cd['fecha_entrada'], cd['fecha_salida'])))
-                rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
-                return render(request, 'lista.html',{'rentas': rentas, 'form': form, 'mes':mes})
-            list_rentas = Renta.objects.filter(municipio_id=cd['municipio'])
-            fmunicipio=Municipio.objects.get(id=cd['municipio'])
-            form = FormularioFiltro()
-            rentas = rentas_paginadas(request.GET.get('page'),list_rentas)
-            return render(request, 'lista.html', {'rentas': rentas,'form':form,'fmunicipio':fmunicipio})
-        else:
-            list_rentas = Renta.objects.all()
-            form = FormularioFiltro()
-            rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
-            return render(request, 'lista.html', {'rentas': rentas, 'form': form,})
-        list_rentas = Renta.objects.all()
-        form = FormularioFiltro()
-        rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
-        return render(request, 'lista.html', {'rentas': rentas, 'form': form,})
-    else:
-        list_rentas = Renta.objects.all()
-        form = FormularioFiltro()
-        rentas = rentas_paginadas(request.GET.get('page'), list_rentas)
-        return render(request, 'lista.html', {'rentas': rentas,'form':form,})
-
-##Encontrar los municipios cuando se selecciona una provincia##
-def encuentra_municipios(request):
-    provincia = request.GET.get('provincia')
-    ret = []
-    if provincia:
-        for municipio in Municipio.objects.filter(provincia_id=provincia):
-            ret.append(dict(id=municipio.id, value=str(municipio)))
-    if len(ret) != 1:
-        ret.insert(0, dict(id='', value='(Seleccione un municipio)'))
-    return HttpResponse(simplejson.dumps(ret),content_type='application/json')
-
-##Paginacion de los datos de la renta##
-def rentas_paginadas(page,list_rentas):
-
-    paginator = Paginator(list_rentas, 10)
-    try:
-        rentas = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        rentas = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        rentas = paginator.page(paginator.num_pages)
-
-    return rentas
-
-def verificar(request,renta):
-    renta_decrypted = crypter.DesEncriptarCadena(renta)
-    return render(request, 'verificar.html',{'renta':renta_decrypted})
+    return render(request,'dsetalles.html',{'form':form})

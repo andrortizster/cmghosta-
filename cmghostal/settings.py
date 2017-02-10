@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-from django.conf import global_settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,8 +24,6 @@ SECRET_KEY = '+&w--*#py0kr$b=dgo-b9y64ko+f$ua3rxul9=mk*g5$!v=%r5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -47,7 +44,6 @@ INSTALLED_APPS = [
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -56,15 +52,6 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'cmghostal.urls'
-
-#TODO: Verificar como se usan estos parámetros
-EMAIL_USE_TLS = True
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_PASSWORD = 'tecno025*' #my gmail password
-EMAIL_HOST_USER = 'tecnocasas.53@gmail.com' #my gmail username
-EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 TEMPLATES = [
     {
@@ -75,11 +62,9 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.i18n',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.csrf',
             ],
         },
     },
@@ -128,14 +113,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es'
 
-_ = lambda s: s
-
-LANGUAGES = (
-    ('es',_('Español')),
-    ('en',_('Ingles')),
-    ('it',_('Italiano')),
-)
-
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -143,10 +120,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-LOCALE_PATHS = (
- os.path.join(BASE_DIR, "locale"),
-)
 
 
 # Static files (CSS, JavaScript, Images)
@@ -157,8 +130,12 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+MEDIA_URL = '/media/'
+
 
 # default static files settings for PythonAnywhere.
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
 MEDIA_ROOT = os.path.join(BASE_DIR, "media") # u'/home/cmghostal/cmghostal/media'
 MEDIA_URL = '/media/'
+STATIC_ROOT =  u'/home/cmghostal/cmghostal/static'
+STATIC_URL = '/static/'
