@@ -1,14 +1,19 @@
-<html lang="en">
+{% load i18n %}
+<html>
 {% load staticfiles %}
 <head>
 	<title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static "cmghostal/css/styles.css" %}" />
     <link rel="stylesheet" type="text/css" href="{% static "cmghostal/css/theme-metallic.css" %}" />
     <link rel="stylesheet" type="text/css" href="{% static "cmghostal/css/anythingslider.css" %}" />
-    <script src="{% static "cmghostal/js/jquery.min.js" %}"></script>
-    <script>window.jQuery || document.write('<script src="{% static "cmghostal/js/jquery.min.js" %}"><\/script>')</script>
+    <link rel="stylesheet" type="text/css" href="{% static "cmghostal/css/jquery-ui.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "cmghostal/css/w3.css" %}" />
+    <script src="{% static "cmghostal/js/jquery.js" %}"></script>
+    <script>window.jQuery || document.write('<script src="{% static "cmghostal/js/jquery.js" %}"><\/script>')</script>
+    <script src="{% static "cmghostal/js/jquery-ui.js" %}"></script>
     <script src="{% static "cmghostal/js/jquery.anythingslider.js" %}"></script>
     <script src="{% static "cmghostal/js/jquery.bxslider.min.js" %}"></script>
+
     <link href="{% static "cmghostal/css/jquery.bxslider.css" %}" rel="stylesheet" />
     {% block script %}{% endblock %}
     {% block style %}{% endblock %}
@@ -18,8 +23,28 @@
 	 <tr >
 	 	<td width="101" valign="top" ><img src="{% static "cmghostal/images/header.png" %}"/></td>
 		<td background="{% static "cmghostal/images/header2.png" %}">
-			 <div style="font-family:Verdana;color:#FFFFFF;font-weight:bold;font-size:16;padding-left:30;padding-top:20">Inicio&nbsp;&nbsp;&nbsp;Tecnocasas&nbsp;&nbsp;&nbsp;Renta&nbsp;&nbsp;&nbsp;Cont&aacute;ctenos</div>
+			 <div class="mainmenu"><a href="/">{% trans "Inicio" %}</a>&nbsp;&nbsp;&nbsp;Tecnocasas&nbsp;&nbsp;&nbsp;<a href="/rentas/lista">{% trans "Renta" %}</a>&nbsp;&nbsp;&nbsp;<a href="/contacto">{% trans "Contáctenos"%}</a></div>
 		</td>
+        <td align="right" background="{% static "cmghostal/images/header2.png" %}">
+            {% if user.is_authenticated %}
+                Hola {{user.username}} <a href="/accounts/logout/"><img src="{% static "cmghostal/images/user_logout.png" %}" title="{% trans "Cerrar Sesión" %} {{user.username}}" /></a>
+            {% else %}
+                <a href="/accounts/login/"><img src="{% static "cmghostal/images/user_login.png" %}" title="{% trans "Iniciar Sesión" %}" /></a>
+            {% endif %}
+          <div class="mainmenu">
+
+            <form action="/i18n/setlang/" method="post">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="" />
+                <select name="language" on change="submit">
+                    {% for lang in LANGUAGES %}
+                        <option value="{{ lang.0 }}">{%  trans lang.1 %}</option>
+                    {% endfor %}
+                </select>
+            <input type="submit" value={% trans "Enviar" %} />
+            </form>
+          </div>
+        </td>
 	 </tr>
 </table>
     {% block content %}{% endblock %}

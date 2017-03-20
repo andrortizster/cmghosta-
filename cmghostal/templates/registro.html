@@ -1,8 +1,108 @@
 {% extends "rentas_base.html" %}
+{% load i18n %}
 {% block content %}
-    <h1>Crea una cuenta de usuario</h1>
-    <form action="" method="post">{% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Crea una cuenta" >
-    </form>
+    {% if form %}
+    <div align="center">
+        <div class="w3-container" >
+            <div class="w3-card-4" style="width: 500px">
+                <header class="w3-container w3-green">
+                    <h3>Crea una cuenta de usuario</h3>
+                </header>
+                {% if form.errors %}
+                <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                    <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                    {% trans "Por favor corrija lo siguiente" %}</p>
+                </div>
+                        {% endif %}
+                <form action="" method="post" class="w3-form ">{% csrf_token %}
+                    <table width="100%">
+                        {% if form.username.errors %}
+                            <tr>
+                                <td colspan="2">
+                                  <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                        {{ form.username.errors }}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <th align="right"><label for="id_username" class="w3-label w3-text-green">Nombre de usuario:</label></th>
+                            <td><input id="id_username" maxlength="30" name="username" type="text"  class="w3-input" />
+                        </tr>
+                        <tr>
+                            <th align="right"><label for="id_password1" class="w3-label w3-text-green">Contraseña:</label></th>
+                            <td><input id="id_password1" name="password1" type="password"  class="w3-input" />
+                        </tr>
+                        {% if form.password2.errors %}
+                            <tr>
+                                <td colspan="2">
+                                  <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                        {{ form.password2.errors }}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <th align="right"><label for="id_password2" class="w3-label w3-text-green">Contraseña (confirmación):</label></th>
+                            <td><input id="id_password2" name="password2" type="password"  class="w3-input" />
+                        </tr>
+                        {% if form.first_name.errors %}
+                            <tr>
+                                <td colspan="2">
+                                  <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                        {{ form.first_name.errors }}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <th align="right"><label for="id_first_name" class="w3-label w3-text-green">Nombre:</label></th>
+                            <td><input id="id_first_name" name="first_name" type="text"  class="w3-input" />
+                        </tr>
+                        {% if form.last_name.errors %}
+                            <tr>
+                                <td colspan="2">
+                                  <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                        {{ form.last_name.errors }}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <th align="right"><label for="id_last_name" class="w3-label w3-text-green">Apellidos:</label></th>
+                            <td><input id="id_last_name" name="last_name" type="text"  class="w3-input" />
+                        </tr>
+                        {% if form.email.errors %}
+                            <tr>
+                                <td colspan="2">
+                                  <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+                                        {{ form.email.errors }}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <th align="right"><label for="id_email" class="w3-label w3-text-green">Correo Electrónico:</label></th>
+                            <td><input id="id_email" name="email" type="text"  class="w3-input" />
+                        </tr>
+                    </table>
+                    <input type="submit" value="Crea una cuenta" >
+                </form>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div align="center">
+        <div class="w3-container" >
+            <div class="w3-card-4" style="width: 500px">
+                <header class="w3-container w3-green">
+                    <h3>Registro Exitoso</h3>
+                </header>
+                <div class="w3-container" >
+                    <p>Su registro se ha completado con éxito, por favor revise su correo para activar su cuenta</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 {% endblock %}

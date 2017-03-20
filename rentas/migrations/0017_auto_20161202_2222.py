@@ -13,32 +13,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='renta',
-            name='direccion',
-            field=models.TextField(default='Dirección del inmueble', verbose_name='Dirección'),
-        ),
-        migrations.AddField(
-            model_name='renta',
-            name='email',
-            field=models.EmailField(blank=True, max_length=254, null=True),
-        ),
-        migrations.AddField(
-            model_name='renta',
-            name='movil',
-            field=models.TextField(blank=True, max_length=8, null=True),
-        ),
-        migrations.AddField(
-            model_name='renta',
-            name='propietario',
-            field=models.CharField(default='Propietario', max_length=150),
-            preserve_default=False,
-        ),
-        migrations.AddField(
-            model_name='renta',
-            name='telefono',
-            field=models.TextField(blank=True, max_length=8, null=True),
-        ),
         migrations.AlterField(
             model_name='comentarios',
             name='renta',

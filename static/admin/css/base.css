@@ -16,12 +16,12 @@ body {
 /* LINKS */
 
 a:link, a:visited {
-    color: #447e9b;
+    color: #8bc34a;
     text-decoration: none;
 }
 
 a:focus, a:hover {
-    color: #036;
+    color: #4CAF50;
 }
 
 a:focus {
@@ -362,7 +362,7 @@ table thead th.sorted .sortoptions a.sortremove {
 }
 
 table thead th.sorted .sortoptions a.sortremove:after {
-    content: '\\';
+    content: '\\' ;
     position: absolute;
     top: -6px;
     left: 3px;

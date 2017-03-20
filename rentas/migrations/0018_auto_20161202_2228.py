@@ -24,16 +24,6 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='rentas.Renta'),
         ),
         migrations.AlterField(
-            model_name='renta',
-            name='movil',
-            field=models.CharField(blank=True, max_length=8, null=True),
-        ),
-        migrations.AlterField(
-            model_name='renta',
-            name='telefono',
-            field=models.CharField(blank=True, max_length=8, null=True),
-        ),
-        migrations.AlterField(
             model_name='reservacion',
             name='renta',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='rentas.Renta'),
